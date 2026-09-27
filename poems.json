@@ -1,0 +1,71 @@
+{
+  "site": {
+    "url": "https://poem.knittinghiyori.com",
+    "x_profile": "",
+    "ga4": "G-ZQZHTYTRMQ"
+  },
+  "poems": [
+    {
+      "id": "0101",
+      "ja": {
+        "title": "図書館",
+        "stanzas": [
+          [
+            "あなたが借りた本を",
+            "あとから私も借りた"
+          ],
+          [
+            "貸出カードの",
+            "私の名前は",
+            "ちょうどあなたのすぐ下"
+          ],
+          [
+            "まるで",
+            "ふたり並んで",
+            "座っているみたい"
+          ]
+        ],
+        "lead": "誰にも言えない、小さなしあわせ。"
+      },
+      "zh": {
+        "title": "圖書館",
+        "stanzas": [
+          [
+            "你借過的書",
+            "我後來也借了"
+          ],
+          [
+            "借書卡上",
+            "我的名字",
+            "剛好寫在你下面"
+          ],
+          [
+            "像是",
+            "我們並排坐著"
+          ]
+        ],
+        "lead": "不能告訴任何人的，小小的幸福。"
+      },
+      "en": {
+        "title": "The Library",
+        "stanzas": [
+          [
+            "The book you borrowed",
+            "I borrowed it after you"
+          ],
+          [
+            "On the library card",
+            "my name",
+            "sits right below yours"
+          ],
+          [
+            "as if",
+            "we were sitting",
+            "side by side"
+          ]
+        ],
+        "lead": "A tiny happiness I can't tell anyone."
+      }
+    }
+  ]
+}
