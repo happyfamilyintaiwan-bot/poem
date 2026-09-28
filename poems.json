@@ -41,7 +41,7 @@
           ],
           [
             "像是",
-            "我們並排坐著"
+            "我們並肩坐著"
           ]
         ],
         "lead": "不能告訴任何人的，小小的幸福。"
@@ -65,6 +65,131 @@
           ]
         ],
         "lead": "A tiny happiness I can't tell anyone."
+      }
+    },
+    {
+      "id": "0102",
+      "ja": {
+        "title": "反射",
+        "stanzas": [
+          [
+            "君を見ない",
+            "窓を見る",
+            "窓には君がいて",
+            "君を見ている",
+            "わたしもいる"
+          ],
+          [
+            "窓の中の君が",
+            "窓の外を見た",
+            "光と影のあいだでだけ",
+            "わたしたちは目が合った"
+          ]
+        ],
+        "lead": "君を見られなくて、窓を見ていた。"
+      },
+      "zh": {
+        "title": "反光",
+        "stanzas": [
+          [
+            "我不看你",
+            "我看窗",
+            "窗裡有你",
+            "也有",
+            "正在看你的我"
+          ],
+          [
+            "直到窗裡的你",
+            "望向窗外",
+            "只有在光影間，",
+            "我們對上了眼。"
+          ]
+        ],
+        "lead": "不敢直視你，只好看著窗。"
+      },
+      "en": {
+        "title": "Reflection",
+        "stanzas": [
+          [
+            "I don't look at you",
+            "I look at the window",
+            "where you are",
+            "and so am I,",
+            "looking at you"
+          ],
+          [
+            "until the you in the window",
+            "looks out of the window —",
+            "only between light and shadow",
+            "did our eyes meet"
+          ]
+        ],
+        "lead": "I couldn't look at you, so I looked at the window."
+      }
+    },
+    {
+      "id": "0103",
+      "ja": {
+        "title": "卒業アルバム",
+        "stanzas": [
+          [
+            "ほんとうは",
+            "わたしのいいところを覚えていて",
+            "と書きたかった"
+          ],
+          [
+            "でも　わたしのいいところは",
+            "君に見つけてもらうのを",
+            "待っている"
+          ],
+          [
+            "だから",
+            "少しだけ消して",
+            "わたしを覚えていて",
+            "それだけでいい"
+          ]
+        ],
+        "lead": "寄せ書きに残したのは、短い一行だけ。"
+      },
+      "zh": {
+        "title": "畢業紀念冊",
+        "stanzas": [
+          [
+            "本來想寫下",
+            "記住我的好"
+          ],
+          [
+            "可是我的好",
+            "都等你發掘"
+          ],
+          [
+            "所以",
+            "刪掉一個字",
+            "記住我",
+            "就好"
+          ]
+        ],
+        "lead": "寫在紀念冊上的，只剩一句。"
+      },
+      "en": {
+        "title": "Yearbook",
+        "stanzas": [
+          [
+            "I meant to write",
+            "remember the good in me"
+          ],
+          [
+            "but the good in me",
+            "is still waiting",
+            "for you to find"
+          ],
+          [
+            "so I cross out a few words —",
+            "remember me,",
+            "that's all"
+          ]
+        ],
+        "lead": "In your yearbook, I left just one short line."
       }
     }
   ]

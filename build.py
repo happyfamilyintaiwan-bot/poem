@@ -24,32 +24,6 @@ FONTS = ('https://fonts.googleapis.com/css2?family=Iansui&family=Klee+One:wght@4
          '&family=Shippori+Mincho:wght@500&display=swap')
 
 
-# ── 變現：Travelpayouts Drive（所有頁面）＋ AdSense（只有首頁）─────────
-# Drive 要放在 <head> 最前面。
-DRIVE = '''<script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1" data-cmp-ab="2">
-  (function () {
-      var script = document.createElement("script");
-      script.async = 1;
-      script.setAttribute("data-cmp-ab","2");
-      script.src = 'https://emrld.ltd/NTc4NjIw.js?t=578620';
-      document.head.appendChild(script);
-  })();
-</script>'''
-
-# AdSense 載入碼刻意「不帶 ?client=」：不跑 Auto ads（沒有插頁式／錨定廣告），只顯示手動單元。
-ADS_HEAD = '''<!-- Google AdSense（只有手動廣告，不跑 Auto ads） -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script>
-<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a[href]').forEach(function(a){a.setAttribute('data-google-vignette','false')})});</script>
-<style>
-.kh-ad{display:block;width:100%;max-width:728px;margin:48px auto;padding:0 16px;text-align:center;clear:both;box-sizing:border-box}
-.kh-ad__label{display:block;font-size:12px;letter-spacing:.08em;opacity:.6;margin-bottom:6px;line-height:1.4}
-.kh-legal{font-size:12px;line-height:1.8;opacity:.7;text-align:center;margin:16px auto 0}
-.kh-legal a{color:inherit;text-decoration:underline;text-underline-offset:3px}
-</style>'''
-
-PRIVACY = 'https://knittinghiyori.com/privacy-policy/'
-
-
 def L(ja, zh, en=None, tag='span'):
     en = ja if en is None else en
     return (f'<{tag} data-l="ja" lang="ja">{ja}</{tag}><{tag} data-l="zh" lang="zh-Hant">{zh}</{tag}>'
@@ -60,16 +34,13 @@ def T(p, k):
     return L(E(p['ja'].get(k, '')), E(p['zh'].get(k, '')), E(p.get('en', p['ja']).get(k, '')))
 
 
-def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e', ads=False):
+def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e'):
     canon = URL + path
-    ads_head = ADS_HEAD if ads else ''
     return f'''<!doctype html>
 <html lang="ja" data-lang="ja" data-mode="day">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-{DRIVE}
-{ads_head}
 <script>(function(){{var r=document.documentElement,l=new URLSearchParams(location.search).get('lang');try{{l=l||localStorage.getItem('hy-poem-lang')}}catch(e){{}}var M={{ja:'ja',zh:'zh-Hant',en:'en'}};if(!M[l])l='ja';r.setAttribute('data-lang',l);r.lang=M[l];window.HY_PAGE_LANG=M[l];var m='day';try{{m=localStorage.getItem('hy-poem-mode')==='night'?'night':'day'}}catch(e){{}}r.setAttribute('data-mode',m);}})();</script>
 <title>{E(title_ja)}</title>
 <meta name="title-ja" content="{E(title_ja)}">
@@ -169,7 +140,7 @@ def build_home():
 
     desc = '8月冬眠中の、一年ぶんの詩。一日ひとつ、365篇の短い詩を日本語・中国語・英語で。'
     out = head('8月冬眠中｜365日の詩', '8月冬眠中｜365 天的詩', '8月冬眠中 | 365 Days of Poems',
-               desc, '/', '/og.png', 'poem-hub', ads=True)
+               desc, '/', '/og.png', 'poem-hub')
     out += f'''<body>
 <div class="wrap">
 <div class="bar"><span></span>{LANG_SWITCH}</div>
@@ -191,19 +162,11 @@ def build_home():
 <table><thead><tr><th>{L("日付", "日期", "Date")}</th><th>{L("題名", "篇名", "Title")}</th></tr></thead>
 <tbody>{"".join(rows)}</tbody></table>
 </div></section>
-<div class="kh-ad" aria-label="広告">
-<span class="kh-ad__label">{L("広告", "贊助內容", "Advertisement")}</span>
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2022028565680247" data-ad-slot="6629751780" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>
 <footer class="about">
 <p>{L("一日ひとつ、一年で365篇。<br>8月冬眠中の短い詩を、日本語・中国語・英語で。",
       "一天一首，一年 365 首。<br>8月冬眠中的短詩，以日文、中文與英文書寫。",
       "One a day, 365 in a year.<br>Short poems by 8月冬眠中, in Japanese, Chinese and English.")}</p>
 {x_link()}
-<p class="kh-legal">{L(f'当サイトはアクセス解析と広告配信のためにCookieを使用しています。<a href="{PRIVACY}">プライバシーポリシー</a>',
-      f'本站使用 Cookie 以進行流量分析與顯示廣告。<a href="{PRIVACY}">隱私權政策</a>',
-      f'This site uses cookies for analytics and ads. <a href="{PRIVACY}">Privacy Policy</a>')}</p>
 </footer>
 </main>
 {share_bar(URL + "/", "8月冬眠中｜365日の詩\n\n#8月冬眠中 #365日の詩", "8月冬眠中｜365 天的詩\n\n#8月冬眠中 #365天的詩",
