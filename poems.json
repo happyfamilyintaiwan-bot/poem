@@ -270,6 +270,91 @@
         ],
         "lead": "I did say it. It just hasn't reached you yet."
       }
+    },
+    {
+      "id": "0105",
+      "ja": {
+        "title": "いい夢",
+        "stanzas": [
+          [
+            "みんなが言う",
+            "暮らしには詩がいる",
+            "詩を読まないと",
+            "夢は見られないって"
+          ],
+          [
+            "詩は　いつまでも覚えられない",
+            "でも　君が言ったことは",
+            "ひとつ残らず覚えている"
+          ],
+          [
+            "言葉の間(ま)まで",
+            "夜には",
+            "夢の中で",
+            "もう一度おさらいする"
+          ],
+          [
+            "どの一行も",
+            "読み終えるのが惜しくて",
+            "目を覚ますのが惜しい"
+          ]
+        ],
+        "lead": "君のいる場所は、どこも覚めたくない夢。"
+      },
+      "zh": {
+        "title": "美夢",
+        "stanzas": [
+          [
+            "他們說",
+            "生活要讀詩",
+            "才可以做夢"
+          ],
+          [
+            "詩，我總是背不起來",
+            "可是妳說過的每一句話",
+            "我都記得"
+          ],
+          [
+            "連停頓的地方",
+            "晚上",
+            "還會在夢裡",
+            "複習一遍"
+          ],
+          [
+            "每一行",
+            "我都捨不得讀完",
+            "捨不得醒"
+          ]
+        ],
+        "lead": "有妳在的地方，都是我捨不得醒的夢。"
+      },
+      "en": {
+        "title": "Sweet Dream",
+        "stanzas": [
+          [
+            "They say",
+            "you need poems in your life",
+            "to be able to dream"
+          ],
+          [
+            "Poems, I can never memorize",
+            "but every word you've ever said",
+            "I remember"
+          ],
+          [
+            "even the pauses.",
+            "At night",
+            "I go over them again",
+            "in my dreams"
+          ],
+          [
+            "every line",
+            "I can't bear to finish,",
+            "can't bear to wake"
+          ]
+        ],
+        "lead": "Anywhere you are is a dream I don't want to wake from."
+      }
     }
   ]
 }
