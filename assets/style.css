@@ -110,3 +110,16 @@ button{font:inherit;color:inherit}
 .pager a{min-height:44px;display:inline-flex;align-items:center;text-decoration:none;font-size:14px;padding:0 4px}
 .pager span.off{min-height:44px;display:inline-flex;align-items:center;color:var(--faint);padding:0 4px}
 .bar .back{text-decoration:none}
+
+/* newsletter CTA */
+.nl{max-width:520px;margin:40px auto 0;padding:30px 22px 24px;background:var(--sheet);border:1px solid var(--line);border-radius:3px;text-align:center;position:relative;overflow:hidden}
+.nl::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--m)}
+.nl .env{width:30px;height:30px;color:var(--m);display:block;margin:0 auto 6px}
+.nl .k{margin:0 0 10px;font-family:var(--latin);font-size:10px;letter-spacing:.4em;padding-left:.4em;color:var(--pencil)}
+.nl h2{margin:0;font-size:18px;font-weight:600;line-height:1.7}
+.nl .s{margin:8px auto 20px;max-width:24em;font-size:14px;line-height:1.9;color:var(--pencil)}
+.nl .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:12em;padding:0 28px;border-radius:999px;background:var(--m);color:#fbf8f2;text-decoration:none;font-size:15px;letter-spacing:.06em;transition:filter .2s,transform .2s}
+.nl .btn:hover{filter:brightness(.93)}
+.nl .btn:active{transform:scale(.98)}
+.nl .note{margin:14px 0 0;font-size:12px;color:var(--pencil)}
+@media (prefers-reduced-motion:reduce){.nl .btn{transition:none}}

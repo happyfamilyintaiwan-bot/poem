@@ -107,6 +107,31 @@ def share_bar(url, ja, zh, en, poem):
             f'<p class="copied" id="copied" aria-live="polite"></p></footer>')
 
 
+def newsletter(poem):
+    """頁面最下方的電子報訂閱 CTA。連結填在 poems.json 的 site.newsletter"""
+    url = SITE.get('newsletter') or '#'
+    if poem:
+        h = L('この詩が届いたなら、次の詩も。', '如果這首詩留在你心裡，', 'If this one stayed with you,')
+        s = L('新しい詩のハイライトを、<br>1〜2週間に一度メールでお届けします。',
+              '讓下一首也寄到你那裡。<br>每一到兩週，把新詩精選寄給你。',
+              'let the next one find you.<br>Highlights from the newest poems, every week or two.')
+    else:
+        h = L('詩の便りを受け取る', '收一封詩的來信', 'Poems, by letter')
+        s = L('新しい詩のハイライトを、<br>1〜2週間に一度メールでお届けします。',
+              '每一到兩週，把新上線的詩挑幾首寄給你。',
+              'Every week or two, a few highlights from the newest poems, sent to your inbox.')
+    return (f'<section class="nl" aria-labelledby="nl-h">'
+            '<svg class="env" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" '
+            'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5"/>'
+            '<path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg>'
+            f'<p class="k" aria-hidden="true">NEWSLETTER</p>'
+            f'<h2 id="nl-h">{h}</h2><p class="s">{s}</p>'
+            f'<a class="btn" href="{E(url)}" target="_blank" rel="noopener" data-cta="newsletter_{"poem" if poem else "home"}" '
+            f'data-cta-type="newsletter">{L("購読する", "訂閱電子報", "Subscribe")}</a>'
+            f'<p class="note">{L("日本語・中国語・英語でお届けします", "以中文、日文、英文寄送", "Sent in Chinese, Japanese and English")}</p>'
+            '</section>')
+
+
 def x_link():
     if not SITE.get('x_profile'):
         return ''
@@ -129,7 +154,8 @@ def build_home():
                 cells.append(f'<span class="day" data-d="{pid}" aria-hidden="true">{d}</span>')
         months.append(f'<div class="month" style="--c:{c}"><h3>{m}月<small>{L(ja, zh, en)}</small></h3>'
                       f'<div class="days">{"".join(cells)}</div></div>')
-    seasons = ''.join(f'<i style="--c:{c}"{" class=\"on\"" if i + 1 in done_months else ""}></i>'
+    on = ' class="on"'
+    seasons = ''.join(f'<i style="--c:{c}"{on if i + 1 in done_months else ""}></i>'
                       for i, (c, *_) in enumerate(MONTHS))
     rows = []
     for p in POEMS:
@@ -171,6 +197,7 @@ def build_home():
 </main>
 {share_bar(URL + "/", "8月冬眠中｜365日の詩\n\n#8月冬眠中 #365日の詩", "8月冬眠中｜365 天的詩\n\n#8月冬眠中 #365天的詩",
            "8月冬眠中 | 365 Days of Poems\n\n#8月冬眠中 #365poems", False)}
+{newsletter(False)}
 </div>
 <script src="/assets/app.js?v={V}"></script>
 </body>
@@ -212,6 +239,7 @@ def build_poem(i, p):
 {share_bar(f"{URL}/{pid}/", f"365日の詩　{pid}\n「{ja['title']}」\n\n#8月冬眠中 #365日の詩",
            f"365 天的詩　{pid}\n〈{zh['title']}〉\n\n#8月冬眠中 #365天的詩",
            f"365 Days of Poems　{pid}\n“{en['title']}”\n\n#8月冬眠中 #365poems", True)}
+{newsletter(True)}
 </div>
 <script src="/assets/app.js?v={V}"></script>
 </body>
@@ -268,3 +296,5 @@ if __name__ == '__main__':
     build_og()
     build_sitemap()
     print(f'完成：{len(POEMS)} 首詩')
+    if not SITE.get('newsletter'):
+        print('⚠ poems.json 的 site.newsletter 還沒填訂閱連結，按鈕目前連到 #')
