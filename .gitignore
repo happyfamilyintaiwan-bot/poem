@@ -2,3 +2,4 @@ out/
 Claude outputs/
 fonts/
 .DS_Store
+__pycache__/

@@ -132,6 +132,16 @@ def newsletter(poem):
             '</section>')
 
 
+def video(p):
+    """詩頁的 YouTube 教學影片連結。poems.json 該首詩填了 youtube 才會出現"""
+    url = p.get('youtube')
+    if not url:
+        return ''
+    return (f'<p class="yt"><a href="{E(url)}" target="_blank" rel="noopener" data-cta="youtube_poem" data-cta-type="video">'
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>'
+            f'{L("YouTubeで日本語レッスンを見る", "在 YouTube 看這首詩的日文教學", "Watch the lesson on YouTube")}</a></p>\n')
+
+
 def x_link():
     if not SITE.get('x_profile'):
         return ''
@@ -234,7 +244,7 @@ def build_poem(i, p):
 </article>
 <p class="kigo">{L(mja + "の月", mzh + "之月", "the month of " + men)}</p>
 <p class="lead">{T(p, "lead")}</p>
-<nav class="pager">{pl}{nl}</nav>
+{video(p)}<nav class="pager">{pl}{nl}</nav>
 </main>
 {share_bar(f"{URL}/{pid}/", f"365日の詩　{pid}\n「{ja['title']}」\n\n#8月冬眠中 #365日の詩",
            f"365 天的詩　{pid}\n〈{zh['title']}〉\n\n#8月冬眠中 #365天的詩",
