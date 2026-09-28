@@ -120,7 +120,7 @@
           ],
           [
             "until the you in the window",
-            "looks out of the window —",
+            "looks out of the window,",
             "only between light and shadow",
             "did our eyes meet"
           ]
@@ -185,12 +185,90 @@
             "for you to find"
           ],
           [
-            "so I cross out a few words —",
+            "so I cross out a few words:",
             "remember me,",
             "that's all"
           ]
         ],
         "lead": "In your yearbook, I left just one short line."
+      }
+    },
+    {
+      "id": "0104",
+      "ja": {
+        "title": "ドン",
+        "stanzas": [
+          [
+            "花火が上がったとき",
+            "一緒に見上げたその瞬間",
+            "小さな声で言った",
+            "好きだよ"
+          ],
+          [
+            "ドン"
+          ],
+          [
+            "君が振り向いて",
+            "いま何て言ったの、と聞いた"
+          ],
+          [
+            "光が先に届いて",
+            "音があとから来るように",
+            "口にした好きは",
+            "まだ途中にいる"
+          ]
+        ],
+        "lead": "言ったよ。まだ君に届いていないだけ。"
+      },
+      "zh": {
+        "title": "砰",
+        "stanzas": [
+          [
+            "煙火升起的時候",
+            "一起仰頭的瞬間",
+            "我小聲說了",
+            "喜歡你"
+          ],
+          [
+            "砰"
+          ],
+          [
+            "你轉過頭",
+            "問我剛剛說什麼"
+          ],
+          [
+            "像光先到",
+            "聲音才來",
+            "說出口的喜歡你",
+            "還在半路上"
+          ]
+        ],
+        "lead": "我說了喔，只是還沒傳到你那裡。"
+      },
+      "en": {
+        "title": "Boom",
+        "stanzas": [
+          [
+            "When the fireworks rose,",
+            "the moment we looked up together,",
+            "I said, softly,",
+            "I like you"
+          ],
+          [
+            "Boom"
+          ],
+          [
+            "You turned to me",
+            "and asked what I'd just said"
+          ],
+          [
+            "Like light arriving first",
+            "and sound coming after,",
+            "the “I like you” I said out loud",
+            "is still on its way"
+          ]
+        ],
+        "lead": "I did say it. It just hasn't reached you yet."
       }
     }
   ]
