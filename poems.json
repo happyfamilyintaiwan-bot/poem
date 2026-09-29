@@ -356,6 +356,69 @@
         ],
         "lead": "Anywhere you are is a dream I don't want to wake from."
       }
+    },
+    {
+      "id": "0106",
+      "ja": {
+        "title": "百番目の好き",
+        "stanzas": [
+          [
+            "真剣な君",
+            "ぼんやりしている君",
+            "目を細めて笑う君"
+          ],
+          [
+            "君に百通りの顔があるなら",
+            "わたしには百通りの好きがある"
+          ],
+          [
+            "百番目は",
+            "わたしの気持ちを",
+            "知らない君"
+          ]
+        ],
+        "lead": "君のどんな顔も、好き。"
+      },
+      "zh": {
+        "title": "第一百種喜歡",
+        "stanzas": [
+          [
+            "你認真的樣子",
+            "你發呆的樣子",
+            "你笑到瞇起眼睛的樣子"
+          ],
+          [
+            "若你有一百種樣子",
+            "我就有一百種喜歡"
+          ],
+          [
+            "第一百種",
+            "是你不知道",
+            "我喜歡你的樣子"
+          ]
+        ],
+        "lead": "你的每一種樣子，我都喜歡。"
+      },
+      "en": {
+        "title": "The Hundredth Way",
+        "stanzas": [
+          [
+            "The way you look when you focus",
+            "the way you look when you drift off",
+            "the way your eyes crinkle when you laugh"
+          ],
+          [
+            "If you have a hundred ways of being",
+            "I have a hundred ways of liking you"
+          ],
+          [
+            "The hundredth",
+            "is you, not knowing",
+            "that I like you"
+          ]
+        ],
+        "lead": "I like every version of you."
+      }
     }
   ]
 }

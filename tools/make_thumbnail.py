@@ -27,20 +27,10 @@ def main(pid, num, left, right):
     pd.rounded_rectangle((pad, pad, pad + PW, pad + PH), 14, fill=(255, 255, 253, 255))
     for y in range(pad + 70, pad + PH - 20, 56): pd.line((pad + 40, y, pad + PW - 40, y), fill=(236, 230, 220, 255), width=2)
 
-    (lj, le), (rj, re_) = left.split('|'), right.split('|')
-    big = mv.font(BLACK, 160); vs = mv.font(BOLD, 64); sub = mv.font(BOLD, 52)
-    cy = pad + 250
-    lw, rw, vw = pd.textlength(lj, font=big), pd.textlength(rj, font=big), pd.textlength('vs', font=vs)
-    gap = 44; total = lw + vw + rw + gap * 2
-    x0 = pad + (PW - total) / 2
-    lx, vx, rx = x0, x0 + lw + gap, x0 + lw + gap * 2 + vw
-    mv.marker(pd, lx, lx + lw, cy + 5, 150, (255, 182, 193, 190))
-    mv.marker(pd, rx, rx + rw, cy + 5, 150, (255, 226, 110, 200))
-    pd.text((lx, cy), lj, font=big, fill=mv.ink, anchor='lm')
-    pd.text((vx, cy + 20), 'vs', font=vs, fill=(236, 128, 100), anchor='lm')
-    pd.text((rx, cy), rj, font=big, fill=mv.ink, anchor='lm')
-    pd.text((lx + lw / 2, cy + 150), le, font=sub, fill=mv.soft, anchor='mm')
-    pd.text((rx + rw / 2, cy + 150), re_, font=sub, fill=mv.soft, anchor='mm')
+    if ';' in right:  # 變化版型：左邊一個大字，右邊列出變化（例："見ない|don't look;見た|looked"）
+        forms_layout(pd, pad, PW, left, right)
+    else:
+        pair_layout(pd, pad, PW, left, right)
     pd.text((pad + PW / 2, pad + PH - 55), f'{p["ja"]["title"]}  {p["en"]["title"]}  ·  an original poem',
             font=mv.font(BOLD, 36), fill=mv.ink, anchor='mm')
     mv.paste_rot(img, pl, (W / 2, H / 2 + 30), -1.2)
@@ -57,6 +47,43 @@ def main(pid, num, left, right):
     out = os.path.join(mv.ROOT, 'out', pid, 'video', 'thumbnail.png')
     img.convert('RGB').save(out, optimize=True)
     print('完成：', out, os.path.getsize(out) // 1024, 'KB')
+
+def forms_layout(pd, pad, PW, left, right):
+    lj, le = left.split('|')
+    rows = [r.split('|') for r in right.split(';')]
+    big = mv.font(BLACK, 190); rf = mv.font(BLACK, 70); mf = mv.font(BOLD, 32)
+    cy = pad + 260
+    lw = pd.textlength(lj, font=big)
+    lx = pad + 70
+    mv.marker(pd, lx, lx + lw, cy + 10, 170, (255, 182, 193, 190))
+    pd.text((lx, cy), lj, font=big, fill=mv.ink, anchor='lm')
+    pd.text((lx + lw / 2, cy + 150), le, font=mv.font(BOLD, 52), fill=mv.soft, anchor='mm')
+    ax = lx + lw + 36
+    pd.line((ax, cy, ax + 70, cy), fill=(236, 128, 100), width=12)
+    pd.polygon([(ax + 70, cy - 24), (ax + 104, cy), (ax + 70, cy + 24)], fill=(236, 128, 100))
+    rx = ax + 130; step = 112; y = cy - step * (len(rows) - 1) / 2
+    for jp, mean in rows:
+        jw = pd.textlength(jp, font=rf)
+        mv.marker(pd, rx, rx + jw, y + 2, 70, (255, 226, 110, 200))
+        pd.text((rx, y), jp, font=rf, fill=mv.ink, anchor='lm')
+        pd.text((rx + jw + 26, y + 8), mean, font=mf, fill=mv.soft, anchor='lm')
+        y += step
+
+def pair_layout(pd, pad, PW, left, right):
+    (lj, le), (rj, re_) = left.split('|'), right.split('|')
+    big = mv.font(BLACK, 160); vs = mv.font(BOLD, 64); sub = mv.font(BOLD, 52)
+    cy = pad + 250
+    lw, rw, vw = pd.textlength(lj, font=big), pd.textlength(rj, font=big), pd.textlength('vs', font=vs)
+    gap = 44; total = lw + vw + rw + gap * 2
+    x0 = pad + (PW - total) / 2
+    lx, vx, rx = x0, x0 + lw + gap, x0 + lw + gap * 2 + vw
+    mv.marker(pd, lx, lx + lw, cy + 5, 150, (255, 182, 193, 190))
+    mv.marker(pd, rx, rx + rw, cy + 5, 150, (255, 226, 110, 200))
+    pd.text((lx, cy), lj, font=big, fill=mv.ink, anchor='lm')
+    pd.text((vx, cy + 20), 'vs', font=vs, fill=(236, 128, 100), anchor='lm')
+    pd.text((rx, cy), rj, font=big, fill=mv.ink, anchor='lm')
+    pd.text((lx + lw / 2, cy + 150), le, font=sub, fill=mv.soft, anchor='mm')
+    pd.text((rx + rw / 2, cy + 150), re_, font=sub, fill=mv.soft, anchor='mm')
 
 if __name__ == '__main__':
     main(*sys.argv[1:5])

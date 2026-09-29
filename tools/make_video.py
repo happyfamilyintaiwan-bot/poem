@@ -171,7 +171,7 @@ def render(card, sub, header, bg, path):
         for n, (left, right) in enumerate(rows):
             jp = left.partition(' ')[0]
             if sub and (sub.strip('。') in jp.replace('〜', '、') or sub.rstrip('.').lower() == right.lower()): cur = n
-        y0 = pad + 95; step = 64
+        step = 64; y0 = pad + max(95, int((PH - len(rows) * step) / 2) + 20)
         for n, (left, right) in enumerate(rows):
             y = y0 + n * step; jp, _, rom = left.partition(' ')
             if n == cur: marker(pd, pad + 190, pad + PW - 120, y - 6, 52, MARKER)
@@ -219,21 +219,24 @@ def render(card, sub, header, bg, path):
         sw = words(sub or '')
         best = max(range(len(en)), key=lambda k: len(words(' '.join(en[k])) & sw))
         en_hit = best if len(words(' '.join(en[best])) & sw) >= 3 else -1
+        norm = lambda t: re.sub(r"[^a-z0-9' ]", '', t.lower()).strip()
+        jsub = re.sub(r'[、。，\s]', '', sub or ''); esub = norm(sub or '')
+        en_lines = {b for se in en for b in se if b and len(norm(b)) > 3 and norm(b) in esub}
         for si, (sj, se) in enumerate(zip(ja, en)):
-            hit = sub and all(l in cur for l in sj)
             for a, b in zip(sj + [''] * (len(se) - len(sj)), se + [''] * (len(sj) - len(se))):
-                if hit and a:
+                if a and jsub and re.sub(r'[、。，]', '', a) in jsub:
                     tl = pd.textlength(a, font=fj); marker(pd, cx - 60 - tl, cx - 60, y - 20, 44, MARKER)
                 pd.text((cx - 60, y), a, font=fj, fill=ink, anchor='rm')
-                if si == en_hit and b:
+                eh = bool(b) and (b in en_lines if en_lines else si == en_hit)
+                if eh:
                     marker(pd, cx + 40, cx + 40 + pd.textlength(b, font=fe), y - 16, 38, MARKER2)
-                pd.text((cx + 40, y), b, font=fe, fill=ink if si == en_hit else soft, anchor='lm'); y += lh
+                pd.text((cx + 40, y), b, font=fe, fill=ink if eh else soft, anchor='lm'); y += lh
             y += lh * 0.8
         pd.line((cx - 10, pad + 60, cx - 10, pad + PH - 60), fill=(236, 230, 220, 255), width=2)
     else:
         parts = [p.strip() for p in title.replace('🔔', '♪').split(' / ')]
         main, rest = parts[0], parts[1:] + extra
-        fm = font(FONT, 112 if len(main) <= 12 else 78)
+        fm = font(FONT, min(112, int(1180 / max(len(main), 1))))
         y = cy - (60 + 36 * len(rest)) + 20
         tl = pd.textlength(main, font=fm); left = cx - tl / 2
         for q in subq:
