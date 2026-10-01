@@ -420,6 +420,66 @@
         ],
         "lead": "I like every version of you."
       }
+    },
+    {
+      "id": "0107",
+      "ja": {
+        "title": "ミュート",
+        "stanzas": [
+          [
+            "片想いは"
+          ],
+          [
+            "君の前で",
+            "好きだよ、のひとことを",
+            "ミュートにすること"
+          ],
+          [
+            "でも　胸の中の好きは",
+            "耳をつんざくほど鳴り響いて",
+            "止められない"
+          ]
+        ],
+        "lead": "声にしない好きほど、うるさい。"
+      },
+      "zh": {
+        "title": "靜音",
+        "stanzas": [
+          [
+            "暗戀"
+          ],
+          [
+            "是在你面前",
+            "把喜歡你這句話",
+            "調成靜音"
+          ],
+          [
+            "但心裡的喜歡",
+            "卻震耳欲聾",
+            "無法控制"
+          ]
+        ],
+        "lead": "說不出口的喜歡，最吵。"
+      },
+      "en": {
+        "title": "Mute",
+        "stanzas": [
+          [
+            "A crush"
+          ],
+          [
+            "is muting",
+            "the words “I like you”",
+            "when I’m in front of you"
+          ],
+          [
+            "but the liking inside me",
+            "is deafening,",
+            "and I can’t turn it down"
+          ]
+        ],
+        "lead": "The quieter I keep it, the louder it gets."
+      }
     }
   ]
 }
