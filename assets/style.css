@@ -130,3 +130,10 @@ button{font:inherit;color:inherit}
 .yt a:hover{background:var(--m);color:#fbf8f2}
 .yt svg{width:16px;height:16px;flex:none}
 @media (prefers-reduced-motion:reduce){.yt a{transition:none}}
+/* 404（按鈕用深一階的紅梅色，文字對比 4.58） */
+.nf-home{text-align:center;margin:26px 0 0}
+.nf-home .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:12em;padding:0 28px;border-radius:999px;background:#a85a68;color:#fbf8f2;text-decoration:none;font-size:15px;letter-spacing:.06em;transition:filter .2s,transform .2s}
+.nf-home .btn:hover{filter:brightness(.93)}
+.nf-home .btn:active{transform:scale(.98)}
+.nf-recent{max-width:520px;margin:30px auto 0}
+@media (prefers-reduced-motion:reduce){.nf-home .btn{transition:none}}

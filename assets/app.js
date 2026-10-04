@@ -86,6 +86,10 @@
     }
   }
 
+  /* 404: 網址是日期（例 /0230/）時，多一句「這天的詩還在冬眠」 */
+  var nf = $('#nf-day');
+  if (nf && /^\/\d{4}\/?$/.test(location.pathname)) nf.hidden = false;
+
   document.querySelectorAll('[data-cta]').forEach(function (a) {
     a.addEventListener('click', function () { ev('cta_click', { cta_id: a.dataset.cta, cta_type: a.dataset.ctaType || 'social', link_url: a.href }); });
   });

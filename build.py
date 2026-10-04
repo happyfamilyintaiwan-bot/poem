@@ -1,6 +1,6 @@
 """8月冬眠中｜poem.knittinghiyori.com 產生器
 用法：編輯 poems.json 後執行  python3 build.py
-會產生 index.html、每首詩的資料夾（例如 0101/index.html）、分享預覽圖、sitemap.xml
+會產生 index.html、每首詩的資料夾（例如 0101/index.html）、404.html、分享預覽圖、sitemap.xml
 """
 import json, os, html
 from datetime import date
@@ -34,20 +34,12 @@ def T(p, k):
     return L(E(p['ja'].get(k, '')), E(p['zh'].get(k, '')), E(p.get('en', p['ja']).get(k, '')))
 
 
-def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e'):
+def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e', noindex=False):
     canon = URL + path
-    return f'''<!doctype html>
-<html lang="ja" data-lang="ja" data-mode="day">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>(function(){{var r=document.documentElement,l=new URLSearchParams(location.search).get('lang');try{{l=l||localStorage.getItem('hy-poem-lang')}}catch(e){{}}var M={{ja:'ja',zh:'zh-Hant',en:'en'}};if(!M[l])l='ja';r.setAttribute('data-lang',l);r.lang=M[l];window.HY_PAGE_LANG=M[l];var m='day';try{{m=localStorage.getItem('hy-poem-mode')==='night'?'night':'day'}}catch(e){{}}r.setAttribute('data-mode',m);}})();</script>
-<title>{E(title_ja)}</title>
-<meta name="title-ja" content="{E(title_ja)}">
-<meta name="title-zh" content="{E(title_zh)}">
-<meta name="title-en" content="{E(title_en)}">
-<meta name="description" content="{E(desc)}">
-<link rel="canonical" href="{canon}">
+    if noindex:  # 404：不給 Google 收錄，也不放 canonical／hreflang／OG
+        seo = '<meta name="robots" content="noindex">'
+    else:
+        seo = f'''<link rel="canonical" href="{canon}">
 <link rel="alternate" hreflang="ja" href="{canon}">
 <link rel="alternate" hreflang="zh-Hant" href="{canon}?lang=zh">
 <link rel="alternate" hreflang="en" href="{canon}?lang=en">
@@ -61,7 +53,19 @@ def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c87
 <meta property="og:locale" content="ja_JP">
 <meta property="og:locale:alternate" content="zh_TW">
 <meta property="og:locale:alternate" content="en_US">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary_large_image">'''
+    return f'''<!doctype html>
+<html lang="ja" data-lang="ja" data-mode="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>(function(){{var r=document.documentElement,l=new URLSearchParams(location.search).get('lang');try{{l=l||localStorage.getItem('hy-poem-lang')}}catch(e){{}}var M={{ja:'ja',zh:'zh-Hant',en:'en'}};if(!M[l])l='ja';r.setAttribute('data-lang',l);r.lang=M[l];window.HY_PAGE_LANG=M[l];var m='day';try{{m=localStorage.getItem('hy-poem-mode')==='night'?'night':'day'}}catch(e){{}}r.setAttribute('data-mode',m);}})();</script>
+<title>{E(title_ja)}</title>
+<meta name="title-ja" content="{E(title_ja)}">
+<meta name="title-zh" content="{E(title_zh)}">
+<meta name="title-en" content="{E(title_en)}">
+<meta name="description" content="{E(desc)}">
+{seo}
 <meta name="theme-color" content="#f1ece1">
 <style>:root{{--m:{color}}}</style>
 <link rel="icon" href="/icons/favicon.ico" sizes="any">
@@ -259,6 +263,49 @@ def build_poem(i, p):
     open(os.path.join(ROOT, pid, 'index.html'), 'w', encoding='utf-8').write(out)
 
 
+def build_404():
+    """找不到頁面時 GitHub Pages 會送出 /404.html。引導回目錄，並列出最近的 3 首詩"""
+    c = MONTHS[11][0]  # 藍鼠：冬天的顏色，配「冬眠」
+    rows = []
+    for p in POEMS[::-1][:3]:
+        mm, dd = p['id'][:2], p['id'][2:]
+        rows.append(f'<tr style="--c:{MONTHS[int(mm) - 1][0]}"><td class="no"><a href="/{p["id"]}/" data-cta="notfound_poem" data-cta-type="other">{mm}.{dd}</a></td>'
+                    f'<td><a href="/{p["id"]}/" data-cta="notfound_poem" data-cta-type="other">{T(p, "title")}</a></td></tr>')
+    msg = {
+        'ja': ('迷子', [['このページは', 'まだ書かれていないか', 'どこかで冬眠しているみたい'], ['目録に戻れば', 'ほかの詩が待っています']]),
+        'zh': ('迷路', [['這一頁', '還沒有被寫下', '或是躲到哪裡冬眠了'], ['回到目錄', '還有別的詩在等你']]),
+        'en': ('Lost', [['This page', "hasn't been written yet,", "or it's hibernating", 'somewhere.'], ['Back at the index,', 'other poems', 'are waiting for you.']]),
+    }
+    marks = {'ja': '「{}」', 'zh': '〈{}〉', 'en': '“{}”'}
+    langs = {'ja': 'ja', 'zh': 'zh-Hant', 'en': 'en'}
+    poems = ''.join(f'<div class="poem" data-l="{k}" lang="{langs[k]}"><h1>{marks[k].format(E(t))}</h1>{stanzas(st)}</div>'
+                    for k, (t, st) in msg.items())
+    out = head('ページが見つかりません｜8月冬眠中', '找不到這一頁｜8月冬眠中', 'Page not found | 8月冬眠中',
+               'お探しのページは見つかりませんでした。', '/404.html', '/og.png', 'poem-404', c, noindex=True)
+    out += f'''<body>
+<div class="wrap">
+<div class="bar"><a class="back" href="/">‹ {L("一覧", "目錄", "Index")}</a>{LANG_SWITCH}</div>
+<main style="--c:{c}">
+<article class="sheet fade">
+<p class="en" aria-hidden="true">AUGUST HIBERNATION</p>
+{poems}
+<div class="corner" aria-label="404"><span>4</span><i></i><span>04</span></div>
+</article>
+<p class="lead" id="nf-day" hidden>{L("この日の詩は、まだ冬眠中です。", "這一天的詩，還在冬眠中。", "The poem for this day is still hibernating.")}</p>
+<p class="nf-home"><a class="btn" href="/" data-cta="notfound_home" data-cta-type="other">{L("目録へ戻る", "回到目錄", "Back to all poems")}</a></p>
+<section class="card nf-recent">
+<h2>{L("最近の詩", "最近的詩", "Recent Poems")}</h2>
+<table><tbody>{"".join(rows)}</tbody></table>
+</section>
+</main>
+</div>
+<script src="/assets/app.js?v={V}"></script>
+</body>
+</html>
+'''
+    open(os.path.join(ROOT, '404.html'), 'w', encoding='utf-8').write(out)
+
+
 def build_og():
     try:
         from PIL import Image, ImageDraw, ImageFont
@@ -303,6 +350,7 @@ if __name__ == '__main__':
     build_home()
     for i, p in enumerate(POEMS):
         build_poem(i, p)
+    build_404()
     build_og()
     build_sitemap()
     print(f'完成：{len(POEMS)} 首詩')
