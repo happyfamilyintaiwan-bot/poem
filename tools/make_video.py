@@ -170,7 +170,7 @@ def render(card, sub, header, bg, path):
         cur = -1
         for n, (left, right) in enumerate(rows):
             jp = left.partition(' ')[0]
-            if sub and (sub.strip('。') in jp.replace('〜', '、') or sub.rstrip('.').lower() == right.lower()): cur = n
+            if sub and (sub.strip('。') in jp.replace('〜', '、') or sub.rstrip('.').lower() == right.lower() or jp in subq): cur = n
         step = 64; y0 = pad + max(95, int((PH - len(rows) * step) / 2) + 20)
         for n, (left, right) in enumerate(rows):
             y = y0 + n * step; jp, _, rom = left.partition(' ')

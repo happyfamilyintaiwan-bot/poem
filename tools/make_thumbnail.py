@@ -61,12 +61,15 @@ def forms_layout(pd, pad, PW, left, right):
     ax = lx + lw + 36
     pd.line((ax, cy, ax + 70, cy), fill=(236, 128, 100), width=12)
     pd.polygon([(ax + 70, cy - 24), (ax + 104, cy), (ax + 70, cy + 24)], fill=(236, 128, 100))
-    rx = ax + 130; step = 112; y = cy - step * (len(rows) - 1) / 2
+    rx = ax + 130; step = 112 if len(rows) > 2 else 150; y = cy - step * (len(rows) - 1) / 2 - (20 if len(rows) <= 2 else 0)
     for jp, mean in rows:
         jw = pd.textlength(jp, font=rf)
         mv.marker(pd, rx, rx + jw, y + 2, 70, (255, 226, 110, 200))
         pd.text((rx, y), jp, font=rf, fill=mv.ink, anchor='lm')
-        pd.text((rx + jw + 26, y + 8), mean, font=mf, fill=mv.soft, anchor='lm')
+        if rx + jw + 26 + pd.textlength(mean, font=mf) <= pad + PW - 30:
+            pd.text((rx + jw + 26, y + 8), mean, font=mf, fill=mv.soft, anchor='lm')
+        else:  # 放不下就換到日文下一行
+            pd.text((rx + 4, y + 58), mean, font=mf, fill=mv.soft, anchor='lm')
         y += step
 
 def pair_layout(pd, pad, PW, left, right):
