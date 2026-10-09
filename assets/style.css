@@ -137,3 +137,12 @@ button{font:inherit;color:inherit}
 .nf-home .btn:active{transform:scale(.98)}
 .nf-recent{max-width:520px;margin:30px auto 0}
 @media (prefers-reduced-motion:reduce){.nf-home .btn{transition:none}}
+/* AdSense 與頁尾 Cookie 說明（core §4、§6）；小字用 --note，白天對比 5.02 */
+:root{--note:#6b6359}
+:root[data-mode="night"]{--note:var(--pencil)}
+.kh-ad{display:block;width:100%;max-width:728px;margin:150px auto;text-align:center;box-sizing:border-box}
+.kh-ad__label{margin:0 0 6px;font-size:12px;letter-spacing:.08em;line-height:1.4;color:var(--note)}
+.kh-ad ins[data-ad-status="unfilled"]{display:none}
+.kh-ad:has(ins[data-ad-status="unfilled"]){display:none}
+.kh-legal{max-width:520px;margin:32px auto 8px;padding:0 4px;font-size:12px;line-height:1.8;text-align:center;color:var(--note)}
+.kh-legal a{color:inherit;text-decoration:underline;text-underline-offset:3px}

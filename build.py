@@ -20,6 +20,12 @@ MONTHS = [('#c8707e', '紅梅', '紅梅', 'Red Plum'), ('#8f8b4e', '鶯', '鶯�
 E = html.escape
 V = date.today().strftime('%Y%m%d')  # cache-busting for css/js
 
+# 變現與規範（knittinghiyori-specs core §1、§2、§4、§6；poem.md）
+DRIVE = 'https://emrld.ltd/NTc4NjIw.js?t=578620'  # Travelpayouts Drive，poem 專用
+AD_CLIENT, AD_SLOT = 'ca-pub-2022028565680247', '6629751780'  # AdSense，poem 專用；只放首頁
+SPEC = 'core-v1.3/poem-v0.2'
+PRIVACY = 'https://knittinghiyori.com/privacy-policy/'
+
 FONTS = ('https://fonts.googleapis.com/css2?family=Iansui&family=Klee+One:wght@400;600'
          '&family=Shippori+Mincho:wght@500&display=swap')
 
@@ -34,7 +40,7 @@ def T(p, k):
     return L(E(p['ja'].get(k, '')), E(p['zh'].get(k, '')), E(p.get('en', p['ja']).get(k, '')))
 
 
-def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e', noindex=False):
+def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e', noindex=False, ads=False):
     canon = URL + path
     if noindex:  # 404：不給 Google 收錄，也不放 canonical／hreflang／OG
         seo = '<meta name="robots" content="noindex">'
@@ -59,6 +65,8 @@ def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c87
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Travelpayouts Drive（head 第一個 script） -->
+<script data-cfasync="false">(function(){{var s=document.createElement("script");s.async=1;s.src="{DRIVE}";document.head.appendChild(s);}})();</script>
 <script>(function(){{var r=document.documentElement,l=new URLSearchParams(location.search).get('lang');try{{l=l||localStorage.getItem('hy-poem-lang')}}catch(e){{}}var M={{ja:'ja',zh:'zh-Hant',en:'en'}};if(!M[l])l='ja';r.setAttribute('data-lang',l);r.lang=M[l];window.HY_PAGE_LANG=M[l];var m='day';try{{m=localStorage.getItem('hy-poem-mode')==='night'?'night':'day'}}catch(e){{}}r.setAttribute('data-mode',m);}})();</script>
 <title>{E(title_ja)}</title>
 <meta name="title-ja" content="{E(title_ja)}">
@@ -77,7 +85,7 @@ def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c87
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="/assets/style.css?v={V}">
-<!-- GA4 統一追蹤 -->
+{ADSENSE if ads else ''}<!-- GA4 統一追蹤 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={SITE['ga4']}"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}
@@ -85,8 +93,36 @@ gtag('js',new Date());
 gtag('set',{{story_id:'{story_id}',page_lang:window.HY_PAGE_LANG,content_group:'poem'}});
 gtag('config','{SITE['ga4']}',{{cookie_domain:'.knittinghiyori.com'}});
 </script>
+<meta name="spec-version" content="{SPEC}">
 </head>
 '''
+
+
+# 不開自動廣告：載入碼不帶 ?client=
+ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script>\n'
+
+
+def ad_unit():
+    """首頁唯一的 AdSense 版位（借書卡之後、about 之前）"""
+    return (f'<div class="kh-ad"><p class="kh-ad__label">{L("広告", "廣告", "Advertisement")}</p>'
+            f'<ins class="adsbygoogle" style="display:block" data-ad-client="{AD_CLIENT}" data-ad-slot="{AD_SLOT}" '
+            'data-ad-format="auto" data-full-width-responsive="true"></ins>'
+            '<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>')
+
+
+def legal():
+    """每頁頁尾的 Cookie 說明（core §6）"""
+    return (f'<p class="kh-legal">'
+            f'{L("当サイトはアクセス解析（Google Analytics）と広告配信（Google AdSense）のためにCookieを使用し、一部にアフィリエイトリンクを含みます。",
+                 "本站使用 Cookie 進行流量分析（Google Analytics）與顯示廣告（Google AdSense），部分連結為聯盟連結。",
+                 "This site uses cookies for analytics (Google Analytics) and ads (Google AdSense), and some links are affiliate links. ")}'
+            f'<a href="{PRIVACY}">{L("プライバシーポリシー", "隱私權政策", "Privacy")}</a></p>')
+
+
+def write(path, out):
+    """寫出頁面；所有連結加 data-google-vignette="false"（不開自動廣告，core §4）"""
+    out = out.replace('<a ', '<a data-google-vignette="false" ')
+    open(path, 'w', encoding='utf-8').write(out)
 
 
 LANG_SWITCH = ('<div class="tools"><div class="lang" role="group" aria-label="Language">'
@@ -180,7 +216,7 @@ def build_home():
 
     desc = '8月冬眠中の、一年ぶんの詩。一日ひとつ、365篇の短い詩を日本語・中国語・英語で。'
     out = head('8月冬眠中｜365日の詩', '8月冬眠中｜365 天的詩', '8月冬眠中 | 365 Days of Poems',
-               desc, '/', '/og.png', 'poem-hub')
+               desc, '/', '/og.png', 'poem-hub', ads=True)
     out += f'''<body>
 <div class="wrap">
 <div class="bar"><span></span>{LANG_SWITCH}</div>
@@ -202,6 +238,7 @@ def build_home():
 <table><thead><tr><th>{L("日付", "日期", "Date")}</th><th>{L("題名", "篇名", "Title")}</th></tr></thead>
 <tbody>{"".join(rows)}</tbody></table>
 </div></section>
+{ad_unit()}
 <footer class="about">
 <p>{L("一日ひとつ、一年で365篇。<br>8月冬眠中の短い詩を、日本語・中国語・英語で。",
       "一天一首，一年 365 首。<br>8月冬眠中的短詩，以日文、中文與英文書寫。",
@@ -212,12 +249,13 @@ def build_home():
 {share_bar(URL + "/", "8月冬眠中｜365日の詩\n\n#8月冬眠中 #365日の詩", "8月冬眠中｜365 天的詩\n\n#8月冬眠中 #365天的詩",
            "8月冬眠中 | 365 Days of Poems\n\n#8月冬眠中 #365poems", False)}
 {newsletter(False)}
+{legal()}
 </div>
 <script src="/assets/app.js?v={V}"></script>
 </body>
 </html>
 '''
-    open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8').write(out)
+    write(os.path.join(ROOT, 'index.html'), out)
 
 
 def stanzas(st):
@@ -254,13 +292,14 @@ def build_poem(i, p):
            f"365 天的詩　{pid}\n〈{zh['title']}〉\n\n#8月冬眠中 #365天的詩",
            f"365 Days of Poems　{pid}\n“{en['title']}”\n\n#8月冬眠中 #365poems", True)}
 {newsletter(True)}
+{legal()}
 </div>
 <script src="/assets/app.js?v={V}"></script>
 </body>
 </html>
 '''
     os.makedirs(os.path.join(ROOT, pid), exist_ok=True)
-    open(os.path.join(ROOT, pid, 'index.html'), 'w', encoding='utf-8').write(out)
+    write(os.path.join(ROOT, pid, 'index.html'), out)
 
 
 def build_404():
@@ -298,12 +337,13 @@ def build_404():
 <table><tbody>{"".join(rows)}</tbody></table>
 </section>
 </main>
+{legal()}
 </div>
 <script src="/assets/app.js?v={V}"></script>
 </body>
 </html>
 '''
-    open(os.path.join(ROOT, '404.html'), 'w', encoding='utf-8').write(out)
+    write(os.path.join(ROOT, '404.html'), out)
 
 
 def build_og():
