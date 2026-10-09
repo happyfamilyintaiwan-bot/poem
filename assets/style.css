@@ -1,5 +1,5 @@
 :root{
-  --paper:#f1ece1; --sheet:#f7f3ea; --ink:#38322c; --pencil:#8c8378; --faint:#d3cabb; --line:#e3dccf;
+  --paper:#f1ece1; --sheet:#f7f3ea; --ink:#38322c; --pencil:#6b6359; --faint:#d3cabb; --line:#e3dccf;
   --ja:"Klee One","Iansui","Hiragino Mincho ProN","Yu Mincho",serif;
   --zh:"Iansui","Klee One","PingFang TC","Noto Serif TC",serif;
   --latin:"Shippori Mincho","Klee One",Georgia,serif;
@@ -130,19 +130,39 @@ button{font:inherit;color:inherit}
 .yt a:hover{background:var(--m);color:#fbf8f2}
 .yt svg{width:16px;height:16px;flex:none}
 @media (prefers-reduced-motion:reduce){.yt a{transition:none}}
-/* 404（按鈕用深一階的紅梅色，文字對比 4.58） */
+/* 404 */
 .nf-home{text-align:center;margin:26px 0 0}
-.nf-home .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:12em;padding:0 28px;border-radius:999px;background:#a85a68;color:#fbf8f2;text-decoration:none;font-size:15px;letter-spacing:.06em;transition:filter .2s,transform .2s}
+.nf-home .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:12em;padding:0 28px;border-radius:999px;background:var(--m);color:#fbf8f2;text-decoration:none;font-size:15px;letter-spacing:.06em;transition:filter .2s,transform .2s}
 .nf-home .btn:hover{filter:brightness(.93)}
 .nf-home .btn:active{transform:scale(.98)}
 .nf-recent{max-width:520px;margin:30px auto 0}
 @media (prefers-reduced-motion:reduce){.nf-home .btn{transition:none}}
-/* AdSense 與頁尾 Cookie 說明（core §4、§6）；小字用 --note，白天對比 5.02 */
-:root{--note:#6b6359}
-:root[data-mode="night"]{--note:var(--pencil)}
+/* AdSense 與頁尾 Cookie 說明（core §4、§6） */
 .kh-ad{display:block;width:100%;max-width:728px;margin:150px auto;text-align:center;box-sizing:border-box}
-.kh-ad__label{margin:0 0 6px;font-size:12px;letter-spacing:.08em;line-height:1.4;color:var(--note)}
+.kh-ad__label{margin:0 0 6px;font-size:12px;letter-spacing:.08em;line-height:1.4;color:var(--pencil)}
 .kh-ad ins[data-ad-status="unfilled"]{display:none}
 .kh-ad:has(ins[data-ad-status="unfilled"]){display:none}
-.kh-legal{max-width:520px;margin:32px auto 8px;padding:0 4px;font-size:12px;line-height:1.8;text-align:center;color:var(--note)}
+.kh-legal{max-width:520px;margin:32px auto 8px;padding:0 4px;font-size:12px;line-height:1.8;text-align:center;color:var(--pencil)}
 .kh-legal a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+
+/* 頁首品牌列（core §7，寫法對齊 games _template） */
+.kh-brand-row{gap:12px;padding:0 0 10px;border-bottom:1px solid var(--line)}
+.kh-brand{display:inline-flex;align-items:center;gap:10px;min-height:44px;min-width:0;color:var(--ink);text-decoration:none;font-family:"Noto Sans TC","PingFang TC","Hiragino Sans","Microsoft JhengHei",system-ui,sans-serif;font-size:14.4px;font-weight:700;letter-spacing:.04em;line-height:1.2;white-space:nowrap}
+.kh-brand img{width:40px;height:40px;border-radius:8px;flex:none}
+.kh-brand:hover{text-decoration:underline;text-underline-offset:4px}
+@media (max-width:400px){.kh-brand-sub{display:none!important}.lang button{padding:10px 9px}}
+.lang button{white-space:nowrap}
+.kh-brand-row .tools{flex:none}
+.crumb{margin:6px 0 0}
+
+/* 對比（WCAG 4.5）：季節色當文字或按鈕底色時，白天加深 35%、夜間文字提亮 18%（12 個月都算過） */
+.month h3 small,.day.today,.card td.no a,.card td.no button,.kigo{color:color-mix(in srgb,var(--c) 65%,#000)}
+.day.done{background:color-mix(in srgb,var(--c) 65%,#000)}
+.nl .btn,.nf-home .btn,.yt a:hover{background:color-mix(in srgb,var(--m) 65%,#000)}
+.yt a,.copied,.nets a:hover,.nets button:hover{color:color-mix(in srgb,var(--m) 65%,#000)}
+.yt a{border-color:color-mix(in srgb,var(--m) 65%,#000)}
+:root[data-mode="night"] .month h3 small,:root[data-mode="night"] .day.today,:root[data-mode="night"] .card td.no a,
+:root[data-mode="night"] .card td.no button,:root[data-mode="night"] .kigo{color:color-mix(in srgb,var(--c) 82%,#fff)}
+:root[data-mode="night"] .yt a:not(:hover),:root[data-mode="night"] .copied,
+:root[data-mode="night"] .nets a:hover,:root[data-mode="night"] .nets button:hover{color:color-mix(in srgb,var(--m) 82%,#fff)}
+:root[data-mode="night"] .yt a{border-color:color-mix(in srgb,var(--m) 82%,#fff)}

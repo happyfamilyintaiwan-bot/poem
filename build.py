@@ -26,7 +26,7 @@ AD_CLIENT = 'ca-pub-2022028565680247'  # AdSense 發布商 ID
 # 首頁與詩頁共用同一個廣告單元（Zoe 2026-10-09：收益合在一起看；哪一頁人多看 GA4）
 AD_SLOT_HOME = '6629751780'  # poem-目錄下方
 AD_SLOT_POEM = AD_SLOT_HOME
-SPEC = 'core-v1.3/poem-v0.3'
+SPEC = 'core-v1.3/poem-v0.4'
 PRIVACY = 'https://knittinghiyori.com/privacy-policy/'
 
 FONTS = ('https://fonts.googleapis.com/css2?family=Iansui&family=Klee+One:wght@400;600'
@@ -128,6 +128,13 @@ def write(path, out):
     open(path, 'w', encoding='utf-8').write(out)
 
 
+# 頁首品牌列（core §7）：正式 logo＋「編織日和・詩」，點了回詩網站首頁。窄螢幕先藏「・詩」
+BRAND = ('<a class="kh-brand" href="https://poem.knittinghiyori.com/" data-cta="brand_hub" data-cta-type="poem">'
+         '<img src="/icons/logo-knitting-120.webp" srcset="/icons/logo-knitting-120.webp 1x, /icons/logo-knitting-240.webp 2x" '
+         'width="40" height="40" alt="">編織日和'
+         f'<span class="kh-brand-sub">{L("・詩", "・詩", " · Poems")}</span></a>')
+BACK = f'<nav class="crumb"><a class="back" href="/">‹ {L("一覧", "目錄", "Index")}</a></nav>'
+
 LANG_SWITCH = ('<div class="tools"><div class="lang" role="group" aria-label="Language">'
                '<button type="button" data-set="ja" aria-pressed="true">日本語</button>'
                '<button type="button" data-set="zh" aria-pressed="false">中文</button>'
@@ -222,7 +229,7 @@ def build_home():
                desc, '/', '/og.png', 'poem-hub', ads=True)
     out += f'''<body>
 <div class="wrap">
-<div class="bar"><span></span>{LANG_SWITCH}</div>
+<div class="bar kh-brand-row">{BRAND}{LANG_SWITCH}</div>
 <main>
 <header class="mast fade">
 <p class="en">AUGUST HIBERNATION</p>
@@ -278,7 +285,8 @@ def build_poem(i, p):
                desc, f'/{pid}/', f'/{pid}/og.png', f'poem-{pid}', c, ads=True)
     out += f'''<body>
 <div class="wrap">
-<div class="bar"><a class="back" href="/">‹ {L("一覧", "目錄", "Index")}</a>{LANG_SWITCH}</div>
+<div class="bar kh-brand-row">{BRAND}{LANG_SWITCH}</div>
+{BACK}
 <main style="--c:{c}">
 <article class="sheet fade">
 <p class="en" aria-hidden="true">AUGUST HIBERNATION</p>
@@ -327,7 +335,8 @@ def build_404():
                'お探しのページは見つかりませんでした。', '/404.html', '/og.png', 'poem-404', c, noindex=True)
     out += f'''<body>
 <div class="wrap">
-<div class="bar"><a class="back" href="/">‹ {L("一覧", "目錄", "Index")}</a>{LANG_SWITCH}</div>
+<div class="bar kh-brand-row">{BRAND}{LANG_SWITCH}</div>
+{BACK}
 <main style="--c:{c}">
 <article class="sheet fade">
 <p class="en" aria-hidden="true">AUGUST HIBERNATION</p>
