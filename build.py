@@ -2,8 +2,7 @@
 用法：編輯 poems.json 後執行  python3 build.py
 會產生 index.html、每首詩的資料夾（例如 0101/index.html）、404.html、分享預覽圖、sitemap.xml
 """
-import json, os, html
-from datetime import date
+import json, os, html, hashlib
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = json.load(open(os.path.join(ROOT, 'poems.json'), encoding='utf-8'))
@@ -18,7 +17,8 @@ MONTHS = [('#c8707e', '紅梅', '紅梅', 'Red Plum'), ('#8f8b4e', '鶯', '鶯�
           ('#a77490', '萩', '萩', 'Bush Clover'), ('#c47a4c', '柿', '柿', 'Persimmon'),
           ('#9a7449', '朽葉', '朽葉', 'Fallen Leaves'), ('#667891', '藍鼠', '藍鼠', 'Indigo Grey')]
 E = html.escape
-V = date.today().strftime('%Y%m%d')  # cache-busting for css/js
+# css/js 的版本號：依檔案內容產生，檔案一改就換號（同一天改兩次也會換），瀏覽器才會抓新版
+V = hashlib.md5(b''.join(open(os.path.join(ROOT, 'assets', f), 'rb').read() for f in ('style.css', 'app.js'))).hexdigest()[:8]
 
 # 變現與規範（knittinghiyori-specs core §1、§2、§4、§6；poem.md）
 DRIVE = 'https://emrld.ltd/NTc4NjIw.js?t=578620'  # Travelpayouts Drive，poem 專用
