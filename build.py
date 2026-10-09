@@ -23,9 +23,9 @@ V = date.today().strftime('%Y%m%d')  # cache-busting for css/js
 # 變現與規範（knittinghiyori-specs core §1、§2、§4、§6；poem.md）
 DRIVE = 'https://emrld.ltd/NTc4NjIw.js?t=578620'  # Travelpayouts Drive，poem 專用
 AD_CLIENT = 'ca-pub-2022028565680247'  # AdSense 發布商 ID
-# 每個位置一個廣告單元，AdSense「廣告單元」報表就能分開看首頁與詩頁的成效
-AD_SLOT_HOME = '6629751780'  # poem-目錄下方（首頁）
-AD_SLOT_POEM = '6629751780'  # ⚠ 詩頁暫時共用首頁的；Zoe 在 AdSense 建好「poem-詩頁下方」後換成新 slot
+# 首頁與詩頁共用同一個廣告單元（Zoe 2026-10-09：收益合在一起看；哪一頁人多看 GA4）
+AD_SLOT_HOME = '6629751780'  # poem-目錄下方
+AD_SLOT_POEM = AD_SLOT_HOME
 SPEC = 'core-v1.3/poem-v0.3'
 PRIVACY = 'https://knittinghiyori.com/privacy-policy/'
 
