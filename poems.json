@@ -481,6 +481,91 @@
         ],
         "lead": "The quieter I keep it, the louder it gets."
       }
+    },
+    {
+      "id": "0108",
+      "ja": {
+        "title": "迷子",
+        "stanzas": [
+          [
+            "道を覚えるのが苦手で",
+            "よく迷子になる"
+          ],
+          [
+            "そのおかげで",
+            "本当なら",
+            "見られなかった景色を",
+            "たくさん見た"
+          ],
+          [
+            "あとになって気づいた",
+            "迷っていたんじゃない",
+            "この足で確かめてきた世界で",
+            "ずっと",
+            "君を探していただけ"
+          ],
+          [
+            "たどり着く先が君なら",
+            "少しくらい遠回りしても",
+            "かまわない"
+          ]
+        ],
+        "lead": "迷っていたんじゃない。君を探していただけ。"
+      },
+      "zh": {
+        "title": "迷路",
+        "stanzas": [
+          [
+            "我不太會認路",
+            "常常迷路"
+          ],
+          [
+            "因此看見了",
+            "很多本來",
+            "不會看見的風景"
+          ],
+          [
+            "後來才知道",
+            "我不是迷路",
+            "只是一直在",
+            "親自丈量過的世界裡",
+            "找你"
+          ],
+          [
+            "如果終點是你",
+            "繞遠一點",
+            "也沒關係"
+          ]
+        ],
+        "lead": "我不是迷路，只是一直在找你。"
+      },
+      "en": {
+        "title": "Lost",
+        "stanzas": [
+          [
+            "I’m bad with directions",
+            "I get lost a lot"
+          ],
+          [
+            "so I’ve seen",
+            "so many views",
+            "I never would have seen"
+          ],
+          [
+            "Later I realized",
+            "I wasn’t lost",
+            "I was looking for you",
+            "all over the world",
+            "I’ve walked with my own two feet"
+          ],
+          [
+            "If the end of the road is you",
+            "a few extra turns",
+            "don’t matter"
+          ]
+        ],
+        "lead": "I wasn’t lost. I was looking for you."
+      }
     }
   ]
 }
