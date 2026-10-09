@@ -22,8 +22,11 @@ V = date.today().strftime('%Y%m%d')  # cache-busting for css/js
 
 # 變現與規範（knittinghiyori-specs core §1、§2、§4、§6；poem.md）
 DRIVE = 'https://emrld.ltd/NTc4NjIw.js?t=578620'  # Travelpayouts Drive，poem 專用
-AD_CLIENT, AD_SLOT = 'ca-pub-2022028565680247', '6629751780'  # AdSense，poem 專用；只放首頁
-SPEC = 'core-v1.3/poem-v0.2'
+AD_CLIENT = 'ca-pub-2022028565680247'  # AdSense 發布商 ID
+# 首頁與詩頁共用同一個廣告單元（Zoe 2026-10-09：收益合在一起看；哪一頁人多看 GA4）
+AD_SLOT_HOME = '6629751780'  # poem-目錄下方
+AD_SLOT_POEM = AD_SLOT_HOME
+SPEC = 'core-v1.3/poem-v0.3'
 PRIVACY = 'https://knittinghiyori.com/privacy-policy/'
 
 FONTS = ('https://fonts.googleapis.com/css2?family=Iansui&family=Klee+One:wght@400;600'
@@ -102,10 +105,10 @@ gtag('config','{SITE['ga4']}',{{cookie_domain:'.knittinghiyori.com'}});
 ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script>\n'
 
 
-def ad_unit():
-    """首頁唯一的 AdSense 版位（借書卡之後、about 之前）"""
+def ad_unit(slot):
+    """AdSense 版位：首頁在借書卡之後、about 之前；詩頁在電子報之後、頁尾說明之前。404 不放（AdSense 政策）"""
     return (f'<div class="kh-ad"><p class="kh-ad__label">{L("広告", "廣告", "Advertisement")}</p>'
-            f'<ins class="adsbygoogle" style="display:block" data-ad-client="{AD_CLIENT}" data-ad-slot="{AD_SLOT}" '
+            f'<ins class="adsbygoogle" style="display:block" data-ad-client="{AD_CLIENT}" data-ad-slot="{slot}" '
             'data-ad-format="auto" data-full-width-responsive="true"></ins>'
             '<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>')
 
@@ -238,7 +241,7 @@ def build_home():
 <table><thead><tr><th>{L("日付", "日期", "Date")}</th><th>{L("題名", "篇名", "Title")}</th></tr></thead>
 <tbody>{"".join(rows)}</tbody></table>
 </div></section>
-{ad_unit()}
+{ad_unit(AD_SLOT_HOME)}
 <footer class="about">
 <p>{L("一日ひとつ、一年で365篇。<br>8月冬眠中の短い詩を、日本語・中国語・英語で。",
       "一天一首，一年 365 首。<br>8月冬眠中的短詩，以日文、中文與英文書寫。",
@@ -272,7 +275,7 @@ def build_poem(i, p):
     nl = (f'<a href="/{nxt["id"]}/" rel="next">{T(nxt, "title")} ›</a>' if nxt else '<span class="off" aria-hidden="true">›</span>')
     desc = ja.get('lead') or ''.join(ja['stanzas'][0])
     out = head(f'「{ja["title"]}」｜8月冬眠中 {pid}', f'〈{zh["title"]}〉｜8月冬眠中 {pid}', f'“{en["title"]}” | 8月冬眠中 {pid}',
-               desc, f'/{pid}/', f'/{pid}/og.png', f'poem-{pid}', c)
+               desc, f'/{pid}/', f'/{pid}/og.png', f'poem-{pid}', c, ads=True)
     out += f'''<body>
 <div class="wrap">
 <div class="bar"><a class="back" href="/">‹ {L("一覧", "目錄", "Index")}</a>{LANG_SWITCH}</div>
@@ -292,6 +295,7 @@ def build_poem(i, p):
            f"365 天的詩　{pid}\n〈{zh['title']}〉\n\n#8月冬眠中 #365天的詩",
            f"365 Days of Poems　{pid}\n“{en['title']}”\n\n#8月冬眠中 #365poems", True)}
 {newsletter(True)}
+{ad_unit(AD_SLOT_POEM)}
 {legal()}
 </div>
 <script src="/assets/app.js?v={V}"></script>
