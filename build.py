@@ -323,9 +323,9 @@ def build_404():
         rows.append(f'<tr style="--c:{MONTHS[int(mm) - 1][0]}"><td class="no"><a href="/{p["id"]}/" data-cta="notfound_poem" data-cta-type="other">{mm}.{dd}</a></td>'
                     f'<td><a href="/{p["id"]}/" data-cta="notfound_poem" data-cta-type="other">{T(p, "title")}</a></td></tr>')
     msg = {
-        'ja': ('迷子', [['このページは', 'まだ書かれていないか', 'どこかで冬眠しているみたい'], ['目録に戻れば', 'ほかの詩が待っています']]),
-        'zh': ('迷路', [['這一頁', '還沒有被寫下', '或是躲到哪裡冬眠了'], ['回到目錄', '還有別的詩在等你']]),
-        'en': ('Lost', [['This page', "hasn't been written yet,", "or it's hibernating", 'somewhere.'], ['Back at the index,', 'other poems', 'are waiting for you.']]),
+        'ja': ('行き止まり', [['このページは', 'まだ書かれていないか', 'どこかで冬眠しているみたい'], ['目録に戻れば', 'ほかの詩が待っています']]),
+        'zh': ('此路不通', [['這一頁', '還沒有被寫下', '或是躲到哪裡冬眠了'], ['回到目錄', '還有別的詩在等你']]),
+        'en': ('Dead End', [['This page', "hasn't been written yet,", "or it's hibernating", 'somewhere.'], ['Back at the index,', 'other poems', 'are waiting for you.']]),
     }
     marks = {'ja': '「{}」', 'zh': '〈{}〉', 'en': '“{}”'}
     langs = {'ja': 'ja', 'zh': 'zh-Hant', 'en': 'en'}
