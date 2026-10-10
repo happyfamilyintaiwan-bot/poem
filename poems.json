@@ -566,6 +566,76 @@
         ],
         "lead": "I wasn’t lost. I was looking for you."
       }
+    },
+    {
+      "id": "0109",
+      "ja": {
+        "title": "それから",
+        "stanzas": [
+          [
+            "むかしは",
+            "君にもう少し見てほしくて",
+            "がむしゃらにがんばっていた"
+          ],
+          [
+            "それから",
+            "がんばること自体と",
+            "早起きの朝の風を",
+            "好きになった"
+          ],
+          [
+            "いつか君がわたしを見るなら",
+            "見てほしいのは",
+            "好きなことに夢中になって",
+            "少しよくなったわたし"
+          ]
+        ],
+        "lead": "いまは、好きだからがんばっている。"
+      },
+      "zh": {
+        "title": "後來",
+        "stanzas": [
+          [
+            "我曾經",
+            "為了讓你多看我一眼",
+            "拚命努力"
+          ],
+          [
+            "後來",
+            "我愛上了努力本身",
+            "與早起時的風"
+          ],
+          [
+            "如果有一天你看見我",
+            "希望你看見的",
+            "是因熱愛",
+            "而變得更好的我"
+          ]
+        ],
+        "lead": "後來我努力，是因為熱愛。"
+      },
+      "en": {
+        "title": "Since Then",
+        "stanzas": [
+          [
+            "I used to",
+            "work so hard",
+            "just so you’d look at me a little longer"
+          ],
+          [
+            "Since then",
+            "I’ve fallen for the work itself",
+            "and the wind on early mornings"
+          ],
+          [
+            "If you ever do see me",
+            "I hope what you see",
+            "is the me who grew",
+            "by loving what I do"
+          ]
+        ],
+        "lead": "Now I try hard because I love it."
+      }
     }
   ]
 }
