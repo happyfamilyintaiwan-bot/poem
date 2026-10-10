@@ -26,7 +26,7 @@ AD_CLIENT = 'ca-pub-2022028565680247'  # AdSense 發布商 ID
 # 首頁與詩頁共用同一個廣告單元（Zoe 2026-10-09：收益合在一起看；哪一頁人多看 GA4）
 AD_SLOT_HOME = '6629751780'  # poem-目錄下方
 AD_SLOT_POEM = AD_SLOT_HOME
-SPEC = 'core-v1.3/poem-v0.4'
+SPEC = 'core-v1.4/poem-v0.5'
 PRIVACY = 'https://knittinghiyori.com/privacy-policy/'
 
 FONTS = ('https://fonts.googleapis.com/css2?family=Iansui&family=Klee+One:wght@400;600'
@@ -43,10 +43,10 @@ def T(p, k):
     return L(E(p['ja'].get(k, '')), E(p['zh'].get(k, '')), E(p.get('en', p['ja']).get(k, '')))
 
 
-def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e', noindex=False, ads=False):
+def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e', noindex=False, ads=False, page_title=None):
     canon = URL + path
     if noindex:  # 404：不給 Google 收錄，也不放 canonical／hreflang／OG
-        seo = '<meta name="robots" content="noindex">'
+        seo = '<meta name="robots" content="noindex, follow">'
     else:
         seo = f'''<link rel="canonical" href="{canon}">
 <link rel="alternate" hreflang="ja" href="{canon}">
@@ -93,7 +93,7 @@ def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c87
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}
 gtag('js',new Date());
-gtag('set',{{story_id:'{story_id}',page_lang:window.HY_PAGE_LANG,content_group:'poem'}});
+gtag('set',{{story_id:'{story_id}',page_lang:window.HY_PAGE_LANG,content_group:'poem'{f",page_title:'{page_title}'" if page_title else ''}}});
 gtag('config','{SITE['ga4']}',{{cookie_domain:'.knittinghiyori.com'}});
 </script>
 <meta name="spec-version" content="{SPEC}">
@@ -315,13 +315,13 @@ def build_poem(i, p):
 
 
 def build_404():
-    """找不到頁面時 GitHub Pages 會送出 /404.html。引導回目錄，並列出最近的 3 首詩"""
+    """找不到頁面時 GitHub Pages 會送出 /404.html。引導回目錄、主站，並列出最近的 3 首詩（core §7：notfound_hub／notfound_main／notfound_card）"""
     c = MONTHS[11][0]  # 藍鼠：冬天的顏色，配「冬眠」
     rows = []
     for p in POEMS[::-1][:3]:
         mm, dd = p['id'][:2], p['id'][2:]
-        rows.append(f'<tr style="--c:{MONTHS[int(mm) - 1][0]}"><td class="no"><a href="/{p["id"]}/" data-cta="notfound_poem" data-cta-type="other">{mm}.{dd}</a></td>'
-                    f'<td><a href="/{p["id"]}/" data-cta="notfound_poem" data-cta-type="other">{T(p, "title")}</a></td></tr>')
+        rows.append(f'<tr style="--c:{MONTHS[int(mm) - 1][0]}"><td class="no"><a href="/{p["id"]}/" data-cta="notfound_card" data-cta-type="poem">{mm}.{dd}</a></td>'
+                    f'<td><a href="/{p["id"]}/" data-cta="notfound_card" data-cta-type="poem">{T(p, "title")}</a></td></tr>')
     msg = {
         'ja': ('行き止まり', [['このページは', 'まだ書かれていないか', 'どこかで冬眠しているみたい'], ['目録に戻れば', 'ほかの詩が待っています']]),
         'zh': ('此路不通', [['這一頁', '還沒有被寫下', '或是躲到哪裡冬眠了'], ['回到目錄', '還有別的詩在等你']]),
@@ -332,7 +332,8 @@ def build_404():
     poems = ''.join(f'<div class="poem" data-l="{k}" lang="{langs[k]}"><h1>{marks[k].format(E(t))}</h1>{stanzas(st)}</div>'
                     for k, (t, st) in msg.items())
     out = head('ページが見つかりません｜8月冬眠中', '找不到這一頁｜8月冬眠中', 'Page not found | 8月冬眠中',
-               'お探しのページは見つかりませんでした。', '/404.html', '/og.png', 'poem-404', c, noindex=True)
+               'お探しのページは見つかりませんでした。', '/404.html', '/og.png', 'poem-404', c, noindex=True,
+               page_title='詩|404|找不到頁面')
     out += f'''<body>
 <div class="wrap">
 <div class="bar kh-brand-row">{BRAND}{LANG_SWITCH}</div>
@@ -344,7 +345,8 @@ def build_404():
 <div class="corner" aria-label="404"><span>4</span><i></i><span>04</span></div>
 </article>
 <p class="lead" id="nf-day" hidden>{L("この日の詩は、まだ冬眠中です。", "這一天的詩，還在冬眠中。", "The poem for this day is still hibernating.")}</p>
-<p class="nf-home"><a class="btn" href="/" data-cta="notfound_home" data-cta-type="other">{L("目録へ戻る", "回到目錄", "Back to all poems")}</a></p>
+<p class="nf-home"><a class="btn" href="/" data-cta="notfound_hub" data-cta-type="poem">{L("目録へ戻る", "回到目錄", "Back to all poems")}</a></p>
+<p class="nf-main"><a href="https://knittinghiyori.com/" data-cta="notfound_main" data-cta-type="poem">{L("編織日和のサイトへ →", "到編織日和主站 →", "Visit Knitting Hiyori →")}</a></p>
 <section class="card nf-recent">
 <h2>{L("最近の詩", "最近的詩", "Recent Poems")}</h2>
 <table><tbody>{"".join(rows)}</tbody></table>
