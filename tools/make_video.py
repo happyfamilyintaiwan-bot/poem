@@ -19,7 +19,7 @@ EN_VOICE, EN_RATE = 'en-US-JennyNeural', '-8%'
 JA_VOICE = 'ja-JP-NanamiNeural'
 JA_WORD_RATE, JA_POEM_RATE = '-25%', '-15%'
 GAP_JA, GAP_EN, GAP_SENT, GAP_BLOCK, GAP_CARD, GAP_POEM = 0.45, 0.3, 0.45, 0.7, 0.5, 0.8
-TTS_FIX = {'8月冬眠中': 'はちがつとうみんちゅう'}   # 只改念法，字幕照原文
+TTS_FIX = {'8月冬眠中': 'はちがつとうみんちゅう', '間(ま)': 'ま', '一行': 'いちぎょう'}   # 只改念法，字幕照原文
 SUB_FIX = {'poem dot knitting hiyori dot com': 'poem.knittinghiyori.com'}
 
 def font(name, size): return ImageFont.truetype(os.path.join(FD, name), size)
@@ -56,8 +56,12 @@ def parse(md, poem_ja_full):
 
 # ---------- 聲音 ----------
 CACHE = None
+READINGS = {'詩': 'し', '夢': 'ゆめ', '夜': 'よる', '中': 'なか', '外': 'そと', '目': 'め', '光': 'ひかり', '音': 'おと',
+            '影': 'かげ', '君': 'きみ', '窓': 'まど', '本': 'ほん', '間': 'ま', '声': 'こえ', '口': 'くち'}
+
 async def tts(text, voice, rate):
     for a, b in TTS_FIX.items(): text = text.replace(a, b)
+    if text.strip('。') in READINGS: text = READINGS[text.strip('。')] + ('。' if text.endswith('。') else '')
     key = hashlib.md5(f'{voice}|{rate}|{text}'.encode()).hexdigest()[:16]
     mp3 = os.path.join(CACHE, key + '.mp3'); wav = os.path.join(CACHE, key + '.wav')
     if not os.path.exists(wav):
@@ -152,6 +156,9 @@ def render(card, sub, header, bg, path):
 
     # 便條紙
     PW, PH = 1400, 640
+    poem_rows = sum(max(len(sj), len(se)) for sj, se in zip(*extra)) + 0.8 * (len(extra[0]) - 1) if kind == 'poem' else 0
+    tall = poem_rows > 11; xtall = poem_rows > 14
+    if tall: PH = 820 if xtall else 740  # 詩比較長時便條紙加高，字才不會縮太小
     pad = 40
     paper_l = Image.new('RGBA', (PW + pad * 2, PH + pad * 2), (0, 0, 0, 0))
     sh = Image.new('L', paper_l.size, 0); ImageDraw.Draw(sh).rounded_rectangle((pad + 6, pad + 12, pad + PW + 6, pad + PH + 12), 16, fill=70)
@@ -211,9 +218,10 @@ def render(card, sub, header, bg, path):
             y += 100
     elif kind == 'poem':
         ja, en = extra
-        fj, fe = font(FONT, 42), font(FONT, 32)
-        n = sum(len(s) for s in ja) + len(ja) - 1; lh = 50
-        y = cy - n * lh / 2 + lh / 2
+        rows_n = sum(max(len(sj), len(se)) for sj, se in zip(ja, en)) + 0.8 * (len(ja) - 1)
+        lh = min(50, int((PH - 130) / rows_n))  # 行數多時自動縮小，避免超出便條紙
+        fj, fe = font(FONT, int(42 * lh / 50)), font(FONT, int(32 * lh / 50))
+        y = cy - rows_n * lh / 2 + lh / 2
         cur = [s for s in (sub or '').split('、')]
         words = lambda t: set(re.findall(r"[a-z']+", t.lower())) - {'the', 'a', 'i', 'it', 'is', 'in', 'my', 'you', 'we'}
         sw = words(sub or '')
@@ -224,7 +232,7 @@ def render(card, sub, header, bg, path):
         en_lines = {b for se in en for b in se if b and len(norm(b)) > 3 and norm(b) in esub}
         for si, (sj, se) in enumerate(zip(ja, en)):
             for a, b in zip(sj + [''] * (len(se) - len(sj)), se + [''] * (len(sj) - len(se))):
-                if a and jsub and re.sub(r'[、。，]', '', a) in jsub:
+                if a and jsub and re.sub(r'[、。，\s]', '', a) in jsub:
                     tl = pd.textlength(a, font=fj); marker(pd, cx - 60 - tl, cx - 60, y - 20, 44, MARKER)
                 pd.text((cx - 60, y), a, font=fj, fill=ink, anchor='rm')
                 eh = bool(b) and (b in en_lines if en_lines else si == en_hit)
@@ -253,7 +261,7 @@ def render(card, sub, header, bg, path):
             pd.text((cx, y), r, font=font(FONT, 44), fill=soft, anchor='mm'); y += 70
 
     ang = float(rng.uniform(-1.2, 1.2))
-    pcx, pcy = W / 2, 480
+    pcx, pcy = W / 2, (465 if xtall else 455 if tall else 480)
     paste_rot(img, paper_l, (pcx, pcy), ang)
     # 紙膠帶貼在便條紙上
     hf = font(FONT, 40); lw = int(ImageDraw.Draw(img).textlength(header, font=hf)) + 160
@@ -268,7 +276,7 @@ def render(card, sub, header, bg, path):
         for a, b in SUB_FIX.items(): sub = sub.replace(a, b)
         f = font(FONT, 46)
         ls = wrap(d, sub, f, W - 420)
-        y = 895 - (len(ls) - 1) * 30
+        y = (962 if xtall else 895) - (len(ls) - 1) * 30
         for l in ls:
             d.text((W / 2, y), l, font=f, fill=ink, anchor='mm'); y += 58
     img.convert('RGB').save(path)

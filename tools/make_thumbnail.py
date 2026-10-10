@@ -51,22 +51,29 @@ def main(pid, num, left, right):
 def forms_layout(pd, pad, PW, left, right):
     lj, le = left.split('|')
     rows = [r.split('|') for r in right.split(';')]
-    big = mv.font(BLACK, 190); rf = mv.font(BLACK, 70); mf = mv.font(BOLD, 32)
+    bs, rs = 190, 70
+    lx = pad + 70
+    while True:  # 字太寬時自動縮小，直到右邊最長的一行放得進便條紙
+        big = mv.font(BLACK, bs); rf = mv.font(BLACK, rs)
+        need = lx + pd.textlength(lj, font=big) + 36 + 130 + max(pd.textlength(jp, font=rf) for jp, _ in rows)
+        if need <= pad + PW - 40 or bs <= 110: break
+        bs -= 10; rs = max(56, rs - 3)
+    mf = mv.font(BOLD, 32)
     cy = pad + 260
     lw = pd.textlength(lj, font=big)
-    lx = pad + 70
-    mv.marker(pd, lx, lx + lw, cy + 10, 170, (255, 182, 193, 190))
+    mv.marker(pd, lx, lx + lw, cy + 10, int(bs * 0.9), (255, 182, 193, 190))
     pd.text((lx, cy), lj, font=big, fill=mv.ink, anchor='lm')
     pd.text((lx + lw / 2, cy + 150), le, font=mv.font(BOLD, 52), fill=mv.soft, anchor='mm')
     ax = lx + lw + 36
     pd.line((ax, cy, ax + 70, cy), fill=(236, 128, 100), width=12)
     pd.polygon([(ax + 70, cy - 24), (ax + 104, cy), (ax + 70, cy + 24)], fill=(236, 128, 100))
     rx = ax + 130; step = 112 if len(rows) > 2 else 150; y = cy - step * (len(rows) - 1) / 2 - (20 if len(rows) <= 2 else 0)
+    wrap_all = any(rx + pd.textlength(jp, font=rf) + 26 + pd.textlength(mean, font=mf) > pad + PW - 30 for jp, mean in rows)
     for jp, mean in rows:
         jw = pd.textlength(jp, font=rf)
-        mv.marker(pd, rx, rx + jw, y + 2, 70, (255, 226, 110, 200))
+        mv.marker(pd, rx, rx + jw, y + 2, rs, (255, 226, 110, 200))
         pd.text((rx, y), jp, font=rf, fill=mv.ink, anchor='lm')
-        if rx + jw + 26 + pd.textlength(mean, font=mf) <= pad + PW - 30:
+        if not wrap_all:
             pd.text((rx + jw + 26, y + 8), mean, font=mf, fill=mv.soft, anchor='lm')
         else:  # 放不下就換到日文下一行
             pd.text((rx + 4, y + 58), mean, font=mf, fill=mv.soft, anchor='lm')
