@@ -19,7 +19,7 @@ EN_VOICE, EN_RATE = 'en-US-JennyNeural', '-8%'
 JA_VOICE = 'ja-JP-NanamiNeural'
 JA_WORD_RATE, JA_POEM_RATE = '-25%', '-15%'
 GAP_JA, GAP_EN, GAP_SENT, GAP_BLOCK, GAP_CARD, GAP_POEM = 0.45, 0.3, 0.45, 0.7, 0.5, 0.8
-TTS_FIX = {'8月冬眠中': 'はちがつとうみんちゅう', '間(ま)': 'ま', '一行': 'いちぎょう'}   # 只改念法，字幕照原文
+TTS_FIX = {'8月冬眠中': 'はちがつとうみんちゅう', '間(ま)': 'ま', '一行': 'いちぎょう', '百通り': 'ひゃくとおり', '百番目': 'ひゃくばんめ'}   # 只改念法，字幕照原文
 SUB_FIX = {'poem dot knitting hiyori dot com': 'poem.knittinghiyori.com'}
 
 def font(name, size): return ImageFont.truetype(os.path.join(FD, name), size)
@@ -57,7 +57,8 @@ def parse(md, poem_ja_full):
 # ---------- 聲音 ----------
 CACHE = None
 READINGS = {'詩': 'し', '夢': 'ゆめ', '夜': 'よる', '中': 'なか', '外': 'そと', '目': 'め', '光': 'ひかり', '音': 'おと',
-            '影': 'かげ', '君': 'きみ', '窓': 'まど', '本': 'ほん', '間': 'ま', '声': 'こえ', '口': 'くち'}
+            '影': 'かげ', '君': 'きみ', '窓': 'まど', '本': 'ほん', '間': 'ま', '声': 'こえ', '口': 'くち',
+            '顔': 'かお', '百': 'ひゃく', '通り': 'とおり', '番目': 'ばんめ'}
 
 async def tts(text, voice, rate):
     for a, b in TTS_FIX.items(): text = text.replace(a, b)
