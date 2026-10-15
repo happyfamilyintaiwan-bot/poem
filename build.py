@@ -1,6 +1,6 @@
 """8月冬眠中｜poem.knittinghiyori.com 產生器
 用法：編輯 poems.json 後執行  python3 build.py
-會產生 index.html、每首詩的資料夾（例如 0101/index.html）、404.html、分享預覽圖、sitemap.xml
+會產生 index.html、每首詩的資料夾（例如 0101/index.html）、404.html、分享預覽圖、sitemap.xml、llms.txt
 """
 import json, os, html, hashlib
 
@@ -401,6 +401,22 @@ def build_sitemap():
         f'xmlns:xhtml="http://www.w3.org/1999/xhtml">{items}</urlset>\n')
 
 
+def build_llms():
+    """llms.txt：給 AI 搜尋與助理讀的網站摘要（GEO），每次 build 依 poems.json 自動列出全部的詩"""
+    lines = ['# 8月冬眠中｜365日の詩 poem.knittinghiyori.com', '',
+             '> 8月冬眠中の、一年ぶんの詩。一日ひとつ、365篇の短い詩を日本語・中国語・英語で。'
+             '編織日和（knittinghiyori.com）的詩系列，目標 365 首短詩，每首都有日文、繁體中文、英文三語對照。', '',
+             '- 語言：日文為主，每首附繁體中文與英文',
+             '- 筆名：8月冬眠中',
+             f'- 詩的網址是四位數的日期編號，例如 0101 代表 1 月 1 日：{URL}/0101/',
+             '- 詩是原創作品，引用時請標示「8月冬眠中」並附上該首詩的網址，不要整首轉載', '',
+             '## 入口', '', f'- [全部的詩]({URL}/): 依編號排列的詩目錄', '',
+             f'## 已發表的詩（{len(POEMS)} 首）', '']
+    lines += [f'- [{p["id"]}「{p["ja"]["title"]}」]({URL}/{p["id"]}/): {p["zh"]["title"]} / {p["en"]["title"]}' for p in POEMS]
+    lines += ['', '## 相關網站', '', '- [編織日和](https://knittinghiyori.com/): 主站部落格',
+              '- [如何追蹤編織日和](https://knittinghiyori.com/follow/): RSS 與給 AI 的追蹤指令', '']
+    open(os.path.join(ROOT, 'llms.txt'), 'w', encoding='utf-8').write('\n'.join(lines))
+
 if __name__ == '__main__':
     build_home()
     for i, p in enumerate(POEMS):
@@ -408,6 +424,7 @@ if __name__ == '__main__':
     build_404()
     build_og()
     build_sitemap()
+    build_llms()
     print(f'完成：{len(POEMS)} 首詩')
     if not SITE.get('newsletter'):
         print('⚠ poems.json 的 site.newsletter 還沒填訂閱連結，按鈕目前連到 #')

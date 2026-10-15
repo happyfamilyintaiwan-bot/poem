@@ -1,0 +1,29 @@
+# 8月冬眠中｜365日の詩 poem.knittinghiyori.com
+
+> 8月冬眠中の、一年ぶんの詩。一日ひとつ、365篇の短い詩を日本語・中国語・英語で。編織日和（knittinghiyori.com）的詩系列，目標 365 首短詩，每首都有日文、繁體中文、英文三語對照。
+
+- 語言：日文為主，每首附繁體中文與英文
+- 筆名：8月冬眠中
+- 詩的網址是四位數的日期編號，例如 0101 代表 1 月 1 日：https://poem.knittinghiyori.com/0101/
+- 詩是原創作品，引用時請標示「8月冬眠中」並附上該首詩的網址，不要整首轉載
+
+## 入口
+
+- [全部的詩](https://poem.knittinghiyori.com/): 依編號排列的詩目錄
+
+## 已發表的詩（9 首）
+
+- [0101「図書館」](https://poem.knittinghiyori.com/0101/): 圖書館 / The Library
+- [0102「反射」](https://poem.knittinghiyori.com/0102/): 反光 / Reflection
+- [0103「卒業アルバム」](https://poem.knittinghiyori.com/0103/): 畢業紀念冊 / Yearbook
+- [0104「ドン」](https://poem.knittinghiyori.com/0104/): 砰 / Boom
+- [0105「いい夢」](https://poem.knittinghiyori.com/0105/): 美夢 / Sweet Dream
+- [0106「百番目の好き」](https://poem.knittinghiyori.com/0106/): 第一百種喜歡 / The Hundredth Way
+- [0107「ミュート」](https://poem.knittinghiyori.com/0107/): 靜音 / Mute
+- [0108「迷子」](https://poem.knittinghiyori.com/0108/): 迷路 / Lost
+- [0109「それから」](https://poem.knittinghiyori.com/0109/): 後來 / Since Then
+
+## 相關網站
+
+- [編織日和](https://knittinghiyori.com/): 主站部落格
+- [如何追蹤編織日和](https://knittinghiyori.com/follow/): RSS 與給 AI 的追蹤指令
