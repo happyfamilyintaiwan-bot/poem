@@ -69,13 +69,19 @@ def render(title,stanzas,body_font,out,day='01',month='01',size=76,lh=150,gap=12
     img=inkify(small,grey,img,seed=3)
 
     m=Image.new('L',(W,H),0); d=ImageDraw.Draw(m)
-    bf=ImageFont.truetype(body_font,size); tf=ImageFont.truetype(body_font,int(size*.9))
-    total=int(size*.9)+200+sum(len(st)*lh for st in stanzas)+gap*(len(stanzas)-1)+190
+    tsp,bsp=200,190  # 詩名下方、署名的留白
+    def height(): return int(size*.9)+tsp+sum(len(st)*lh for st in stanzas)+gap*(len(stanzas)-1)+bsp
+    total=height()
     while (H-total)//2<380 and lh>110:  # 行數多時自動收緊行距，避免撞到上方英文標
         lh-=5; gap=max(80,gap-6)
-        total=int(size*.9)+200+sum(len(st)*lh for st in stanzas)+gap*(len(stanzas)-1)+190
+        total=height()
+    if (H-total)//2<380:  # 行距收到底還放不下（例：0110 有 16 行）：字、行距、留白一起等比例縮小
+        k=(H-2*380)/total
+        size=int(size*k); lh=int(lh*k); gap=int(gap*k); tsp=int(tsp*k); bsp=int(bsp*k)
+        total=height()
+    bf=ImageFont.truetype(body_font,size); tf=ImageFont.truetype(body_font,int(size*.9))
     y=(H-total)//2+10
-    d.text((W/2,y),title,font=tf,fill=255,anchor='mt'); y+=int(size*.9)+200
+    d.text((W/2,y),title,font=tf,fill=255,anchor='mt'); y+=int(size*.9)+tsp
     for st in stanzas:
         for line in st:
             d.text((W/2,y+size),line,font=bf,fill=255,anchor='ms'); y+=lh
