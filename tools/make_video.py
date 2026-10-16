@@ -58,7 +58,8 @@ def parse(md, poem_ja_full):
 CACHE = None
 READINGS = {'詩': 'し', '夢': 'ゆめ', '夜': 'よる', '中': 'なか', '外': 'そと', '目': 'め', '光': 'ひかり', '音': 'おと',
             '影': 'かげ', '君': 'きみ', '窓': 'まど', '本': 'ほん', '間': 'ま', '声': 'こえ', '口': 'くち',
-            '顔': 'かお', '百': 'ひゃく', '通り': 'とおり', '番目': 'ばんめ'}
+            '顔': 'かお', '百': 'ひゃく', '通り': 'とおり', '番目': 'ばんめ',
+            '胸': 'むね', '耳': 'みみ', '前': 'まえ', '道': 'みち', '足': 'あし', '先': 'さき', '片': 'かた', '想い': 'おもい'}
 
 async def tts(text, voice, rate):
     for a, b in TTS_FIX.items(): text = text.replace(a, b)
@@ -228,7 +229,7 @@ def render(card, sub, header, bg, path):
         sw = words(sub or '')
         best = max(range(len(en)), key=lambda k: len(words(' '.join(en[k])) & sw))
         en_hit = best if len(words(' '.join(en[best])) & sw) >= 3 else -1
-        norm = lambda t: re.sub(r"[^a-z0-9' ]", '', t.lower()).strip()
+        norm = lambda t: re.sub(r"[^a-z0-9' ]", '', t.lower().replace('\u2019', "'")).strip()
         jsub = re.sub(r'[、。，\s]', '', sub or ''); esub = norm(sub or '')
         en_lines = {b for se in en for b in se if b and len(norm(b)) > 3 and norm(b) in esub}
         for si, (sj, se) in enumerate(zip(ja, en)):
