@@ -638,6 +638,100 @@
         ],
         "lead": "Now I try hard because I love it."
       }
+    },
+    {
+      "id": "0110",
+      "ja": {
+        "title": "君は除く",
+        "stanzas": [
+          [
+            "わたしのルールはたくさんある",
+            "その一",
+            "人を待たない",
+            "その二",
+            "夜ふかししない",
+            "その三",
+            "人のお皿のものは食べない"
+          ],
+          [
+            "君がひと口かじったパンを",
+            "差し出したら",
+            "うれしくて",
+            "ぜんぶ食べた"
+          ],
+          [
+            "どのルールも",
+            "本当はずっと",
+            "ひとつの例外を待っていた"
+          ],
+          [
+            "だから　どのルールにも",
+            "こっそり一行書き足した",
+            "君は除く"
+          ]
+        ],
+        "lead": "えこひいきに、理屈なんてない。"
+      },
+      "zh": {
+        "title": "你除外",
+        "stanzas": [
+          [
+            "我的原則很多",
+            "第一條",
+            "不等人",
+            "第二條",
+            "不熬夜",
+            "第三條",
+            "不吃別人碗裡的東西"
+          ],
+          [
+            "你把咬了一口的麵包",
+            "遞過來",
+            "我開心地把它吃完"
+          ],
+          [
+            "原來每一條原則",
+            "只是在等",
+            "一個特例"
+          ],
+          [
+            "所以每一條原則",
+            "我都偷偷補了一行",
+            "你除外"
+          ]
+        ],
+        "lead": "偏心本來就不講道理。"
+      },
+      "en": {
+        "title": "Except You",
+        "stanzas": [
+          [
+            "I have a lot of rules",
+            "Number one",
+            "I don’t wait for anyone",
+            "Number two",
+            "I don’t stay up late",
+            "Number three",
+            "I don’t eat off other people’s plates"
+          ],
+          [
+            "You held out a piece of bread",
+            "you’d already bitten into",
+            "and I happily ate it all"
+          ],
+          [
+            "Turns out every rule",
+            "was only waiting",
+            "for one exception"
+          ],
+          [
+            "so under every rule",
+            "I quietly added a line",
+            "except you"
+          ]
+        ],
+        "lead": "Playing favorites was never fair."
+      }
     }
   ]
 }
