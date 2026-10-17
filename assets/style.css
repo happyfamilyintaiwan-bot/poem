@@ -174,3 +174,6 @@ button{font:inherit;color:inherit}
 .about .x:hover{background:color-mix(in srgb,var(--m) 65%,#000);color:#fbf8f2}
 :root[data-mode="night"] .about .x:not(:hover){color:color-mix(in srgb,var(--m) 82%,#fff);border-color:color-mix(in srgb,var(--m) 82%,#fff)}
 @media (prefers-reduced-motion:reduce){.about .x{transition:none}}
+/* 404 跨站連結一行（core §7 v1.5，寫法對齊 games） */
+.nf-sites{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 6px;max-width:520px;margin:28px auto 0;padding-top:18px;border-top:1px solid var(--line);font-size:14px;color:var(--pencil)}
+.nf-sites a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;color:var(--ink);text-underline-offset:4px}

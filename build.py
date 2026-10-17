@@ -26,7 +26,7 @@ AD_CLIENT = 'ca-pub-2022028565680247'  # AdSense 發布商 ID
 # 首頁與詩頁共用同一個廣告單元（Zoe 2026-10-09：收益合在一起看；哪一頁人多看 GA4）
 AD_SLOT_HOME = '6629751780'  # poem-目錄下方
 AD_SLOT_POEM = AD_SLOT_HOME
-SPEC = 'core-v1.4/poem-v0.5'
+SPEC = 'core-v1.5/poem-v0.6'
 PRIVACY = 'https://knittinghiyori.com/privacy-policy/'
 
 FONTS = ('https://fonts.googleapis.com/css2?family=Iansui&family=Klee+One:wght@400;600'
@@ -314,6 +314,14 @@ def build_poem(i, p):
     write(os.path.join(ROOT, pid, 'index.html'), out)
 
 
+# 404 跨站連結一行（core §7 v1.5）：到編織日和其他子網域，不含自己；cta_type 填目的地類型
+NF_SITES = ('<nav class="nf-sites" aria-label="編織日和"><span>' + L('ほかのサイト：', '也可以逛逛：', 'More from Knitting Hiyori:') + '</span>'
+            + ''.join(f'<a href="https://{host}.knittinghiyori.com/" data-cta="notfound_site" data-cta-type="{t}">{L(ja, zh, en)}</a>'
+                      for host, t, ja, zh, en in [('story', 'story', '物語', '故事', 'Stories'), ('games', 'game', 'ミニゲーム', '小遊戲', 'Games'),
+                                                  ('tools', 'tool', 'ツール', '小工具', 'Tools'), ('study', 'study', '学習ノート', '學習筆記', 'Study notes')])
+            + '</nav>')
+
+
 def build_404():
     """找不到頁面時 GitHub Pages 會送出 /404.html。引導回目錄、主站，並列出最近的 3 首詩（core §7：notfound_hub／notfound_main／notfound_card）"""
     c = MONTHS[11][0]  # 藍鼠：冬天的顏色，配「冬眠」
@@ -351,6 +359,7 @@ def build_404():
 <h2>{L("最近の詩", "最近的詩", "Recent Poems")}</h2>
 <table><tbody>{"".join(rows)}</tbody></table>
 </section>
+{NF_SITES}
 </main>
 {legal()}
 </div>
