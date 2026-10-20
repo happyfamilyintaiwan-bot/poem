@@ -867,6 +867,72 @@
         ],
         "lead": "Turns out jealousy is tapping the same heart three times."
       }
+    },
+    {
+      "id": "0113",
+      "ja": {
+        "title": "うれしかったこと",
+        "stanzas": [
+          [
+            "次に会ったら",
+            "わたしの調子なんて聞かないで"
+          ],
+          [
+            "君の話が聞きたい",
+            "今日のコーヒーがおいしかったこと",
+            "道で見かけた猫がかわいかったこと",
+            "やっとぐっすり眠れたこと"
+          ],
+          [
+            "その小さなうれしさを",
+            "わたしは",
+            "ひとつずつ大切にしまっておく"
+          ]
+        ],
+        "lead": "次に会ったら、うれしかったことを聞かせて。"
+      },
+      "zh": {
+        "title": "開心的事",
+        "stanzas": [
+          [
+            "下次見面",
+            "不要問我好不好"
+          ],
+          [
+            "我想聽妳說",
+            "今天的咖啡很好喝",
+            "路上的貓很可愛",
+            "或妳終於睡飽了"
+          ],
+          [
+            "那些小小的開心",
+            "我會一件一件",
+            "收好"
+          ]
+        ],
+        "lead": "下次見面，我想聽妳說開心的事。"
+      },
+      "en": {
+        "title": "Happy Things",
+        "stanzas": [
+          [
+            "Next time we meet",
+            "don’t ask how I’ve been"
+          ],
+          [
+            "I want to hear you say",
+            "the coffee was good today",
+            "there was a cute cat on the way",
+            "or you finally got some sleep"
+          ],
+          [
+            "all those little happy things",
+            "I’ll keep them",
+            "one by one"
+          ]
+        ],
+        "lead": "Next time we meet, tell me something that made you happy."
+      }
     }
   ]
 }
