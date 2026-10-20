@@ -804,6 +804,69 @@
         ],
         "lead": "This time, next time, every time, I’ll run to you."
       }
+    },
+    {
+      "id": "0112",
+      "ja": {
+        "title": "ハート",
+        "stanzas": [
+          [
+            "君と友だちの写真が",
+            "ストーリーに流れてきた"
+          ],
+          [
+            "ハートを押して",
+            "取り消して",
+            "もう一度押した"
+          ],
+          [
+            "やきもちって",
+            "同じハートを",
+            "三回押すことだった"
+          ]
+        ],
+        "lead": "やきもちって、同じハートを三回押すことだった。"
+      },
+      "zh": {
+        "title": "愛心",
+        "stanzas": [
+          [
+            "你和朋友的合照",
+            "出現在限時動態"
+          ],
+          [
+            "我按了愛心",
+            "又收回",
+            "又按了一次"
+          ],
+          [
+            "原來吃醋",
+            "是同一顆愛心",
+            "按了三次"
+          ]
+        ],
+        "lead": "原來吃醋，是同一顆愛心按了三次。"
+      },
+      "en": {
+        "title": "Heart",
+        "stanzas": [
+          [
+            "A photo of you and a friend",
+            "showed up in your story"
+          ],
+          [
+            "I tapped the heart",
+            "took it back",
+            "then tapped it again"
+          ],
+          [
+            "Turns out jealousy",
+            "is the same heart",
+            "tapped three times"
+          ]
+        ],
+        "lead": "Turns out jealousy is tapping the same heart three times."
+      }
     }
   ]
 }
