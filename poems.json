@@ -933,6 +933,74 @@
         ],
         "lead": "Next time we meet, tell me something that made you happy."
       }
+    },
+    {
+      "id": "0114",
+      "ja": {
+        "title": "おはようとおやすみ",
+        "stanzas": [
+          [
+            "毎日　最初のひとことは",
+            "おはよう",
+            "最後のひとことは",
+            "おやすみ"
+          ],
+          [
+            "そのあいだの",
+            "なに食べた？",
+            "いまなにしてる？"
+          ],
+          [
+            "ぜんぶ",
+            "君を想っている",
+            "べつの言い方"
+          ]
+        ],
+        "lead": "おはようからおやすみまで、ぜんぶ君のこと。"
+      },
+      "zh": {
+        "title": "早安晚安",
+        "stanzas": [
+          [
+            "每天第一句",
+            "是早安",
+            "最後一句",
+            "是晚安"
+          ],
+          [
+            "中間那些",
+            "吃了什麼",
+            "在幹嘛"
+          ],
+          [
+            "都是想你的",
+            "另一種說法"
+          ]
+        ],
+        "lead": "從早安到晚安，都是你。"
+      },
+      "en": {
+        "title": "Good Morning, Good Night",
+        "stanzas": [
+          [
+            "Every day the first thing I say",
+            "is good morning",
+            "and the last thing",
+            "is good night"
+          ],
+          [
+            "everything in between",
+            "what did you eat",
+            "what are you up to"
+          ],
+          [
+            "is just another way",
+            "of saying",
+            "I miss you"
+          ]
+        ],
+        "lead": "From good morning to good night, it’s all you."
+      }
     }
   ]
 }
