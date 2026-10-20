@@ -735,6 +735,75 @@
         ],
         "lead": "Playing favorites was never fair."
       }
+    },
+    {
+      "id": "0111",
+      "ja": {
+        "title": "何度でも",
+        "stanzas": [
+          [
+            "放課後のチャイムが鳴ると",
+            "いちばんに教室を飛び出して",
+            "君のもとへ走った"
+          ],
+          [
+            "卒業の日",
+            "グラウンドを突っ切って",
+            "君のもとへ走った"
+          ],
+          [
+            "何年もたって",
+            "ホームの向こう側に君を見つけた",
+            "わたしはやっぱり",
+            "あのころと同じように走っていく"
+          ]
+        ],
+        "lead": "今回も、次も、何度でも、君のもとへ走っていく。"
+      },
+      "zh": {
+        "title": "每一次",
+        "stanzas": [
+          [
+            "放學鐘響",
+            "我第一個衝出教室",
+            "跑向你"
+          ],
+          [
+            "畢業那天",
+            "我穿過整個操場",
+            "跑向你"
+          ],
+          [
+            "很多年以後",
+            "在月台的另一頭看見你",
+            "我還是",
+            "一樣地跑向你"
+          ]
+        ],
+        "lead": "這次、下次，次次，我都會跑向你。"
+      },
+      "en": {
+        "title": "Every Time",
+        "stanzas": [
+          [
+            "When the last bell rang",
+            "I was the first one out of class",
+            "running to you"
+          ],
+          [
+            "On graduation day",
+            "I cut across the whole field",
+            "running to you"
+          ],
+          [
+            "Many years later",
+            "I saw you at the other end of the platform",
+            "and I still",
+            "ran to you the same way"
+          ]
+        ],
+        "lead": "This time, next time, every time, I’ll run to you."
+      }
     }
   ]
 }
