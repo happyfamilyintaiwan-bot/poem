@@ -1001,6 +1001,75 @@
         ],
         "lead": "From good morning to good night, it’s all you."
       }
+    },
+    {
+      "id": "0115",
+      "ja": {
+        "title": "先に連れていくね",
+        "stanzas": [
+          [
+            "同僚と残業していたら",
+            "君がやってきて",
+            "笑ってみんなに言った",
+            "この人、先に連れていくね"
+          ],
+          [
+            "キーボードの音が一瞬止まった",
+            "わたしの鼓動は止まらなかった"
+          ],
+          [
+            "好きでいてもらうって",
+            "誰かが堂々と",
+            "忙しさの中から",
+            "わたしを連れ帰ってくれること"
+          ]
+        ],
+        "lead": "この人、先に連れていくね。"
+      },
+      "zh": {
+        "title": "先帶走",
+        "stanzas": [
+          [
+            "我還在和同事趕工",
+            "你走過來",
+            "笑著對他們說",
+            "這個人我要先帶走囉"
+          ],
+          [
+            "鍵盤聲停了一下",
+            "我的心跳沒有"
+          ],
+          [
+            "原來被喜歡",
+            "是有人理直氣壯地",
+            "把你從忙碌裡",
+            "領回去"
+          ]
+        ],
+        "lead": "這個人，我要先帶走囉。"
+      },
+      "en": {
+        "title": "Stolen Away",
+        "stanzas": [
+          [
+            "I was still working late with my coworkers",
+            "when you walked over",
+            "and told them with a smile",
+            "I’m stealing this one now"
+          ],
+          [
+            "the keyboards went quiet for a second",
+            "my heartbeat didn’t"
+          ],
+          [
+            "so this is what it is to be loved",
+            "someone, without a second thought,",
+            "taking you back",
+            "from everything that keeps you busy"
+          ]
+        ],
+        "lead": "“I’m stealing this one now.”"
+      }
     }
   ]
 }
