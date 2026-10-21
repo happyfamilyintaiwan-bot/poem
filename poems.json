@@ -1070,6 +1070,60 @@
         ],
         "lead": "“I’m stealing this one now.”"
       }
+    },
+    {
+      "id": "0116",
+      "ja": {
+        "title": "同じ名前",
+        "stanzas": [
+          [
+            "街で誰かが",
+            "君と同じ名前を呼んだ"
+          ],
+          [
+            "君じゃないって",
+            "わかっていたのに"
+          ],
+          [
+            "わたしは振り向いた"
+          ]
+        ],
+        "lead": "君じゃないってわかっていても、振り向いてしまった。"
+      },
+      "zh": {
+        "title": "同名",
+        "stanzas": [
+          [
+            "街上有人喊了",
+            "跟你一樣的名字"
+          ],
+          [
+            "明明知道",
+            "不會是你"
+          ],
+          [
+            "我還是回頭了"
+          ]
+        ],
+        "lead": "明明知道不會是你，我還是回頭了。"
+      },
+      "en": {
+        "title": "Same Name",
+        "stanzas": [
+          [
+            "Someone on the street called out",
+            "a name just like yours"
+          ],
+          [
+            "I knew",
+            "it couldn’t be you"
+          ],
+          [
+            "I turned around anyway"
+          ]
+        ],
+        "lead": "I knew it wasn’t you, and I still turned around."
+      }
     }
   ]
 }
