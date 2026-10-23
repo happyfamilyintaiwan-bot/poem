@@ -1,6 +1,6 @@
 """8月冬眠中｜詩圖產生器
 用法：python3 tools/make_images.py 0102
-讀 poems.json，輸出該首詩的日／中／英三張 1080x1350 圖到 out/0102/ 這種以編號命名的資料夾。
+讀 poems.json，輸出該首詩的日／中／英三張 1080x1350 圖到 out/2027/01/0102/（年／月／編號）。
 字型不在 fonts/ 時會自動從 Google Fonts 下載。
 """
 import os, sys, json, urllib.request
@@ -17,6 +17,7 @@ for f, u in FONTS.items():
 os.chdir(FD)
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import numpy as np, random
+from paths import out_dir
 W,H=2160,2700
 paper=(241,236,225); ink=(56,50,44); grey=(140,131,120); red=(186,62,44)
 
@@ -98,7 +99,7 @@ if __name__ == '__main__':
     pid = sys.argv[1]
     data = json.load(open(os.path.join(ROOT, 'poems.json'), encoding='utf-8'))
     p = next(x for x in data['poems'] if x['id'] == pid)
-    out = os.path.join(ROOT, 'out', pid); os.makedirs(out, exist_ok=True)
+    out = out_dir(pid); os.makedirs(out, exist_ok=True)
     mm, dd = pid[:2], pid[2:]
     kw = dict(day=dd, month=mm)
     render(f'〈{p["zh"]["title"]}〉', p['zh']['stanzas'], 'Iansui-Regular.ttf', os.path.join(out, f'{pid}_中文.png'), **kw)

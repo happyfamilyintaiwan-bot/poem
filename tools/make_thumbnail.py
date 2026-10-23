@@ -1,12 +1,13 @@
 """8月冬眠中｜YouTube 縮圖產生器（日系手帳風，1280x720）
 用法：uv run --no-project --python 3.12 --with edge-tts --with pillow --with numpy python tools/make_thumbnail.py 0101 "#1" "借りる|borrow" "貸す|lend"
-輸出 out/0101/video/thumbnail.png
+輸出 out/2027/01/0101/video/thumbnail.png
 """
 import os, sys, json
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import make_video as mv
+from paths import out_dir
 
 W, H = 1280, 720
 BLACK, BOLD = 'ZenMaruGothic-Black.ttf', 'ZenMaruGothic-Bold.ttf'
@@ -44,7 +45,7 @@ def main(pid, num, left, right):
     d = ImageDraw.Draw(img)
     mv.sparkle(d, W - 60, H - 110, 20, (246, 190, 90)); mv.sparkle(d, 55, 330, 14, (242, 160, 180))
 
-    out = os.path.join(mv.ROOT, 'out', pid, 'video', 'thumbnail.png')
+    out = out_dir(pid, 'video', 'thumbnail.png')
     img.convert('RGB').save(out, optimize=True)
     print('完成：', out, os.path.getsize(out) // 1024, 'KB')
 

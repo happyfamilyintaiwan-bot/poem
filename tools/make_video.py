@@ -1,13 +1,14 @@
 """8月冬眠中｜詩教學影片產生器
 用法：uv run --no-project --python 3.12 --with edge-tts --with pillow --with numpy python tools/make_video.py 0101 教學稿.md
 讀教學稿（[CARD] [EN] [JA] [PAUSE 3s] 標記）與 poems.json，
-輸出 out/0101/video/0101.mp4 與 0101.srt（YouTube 字幕）。
+輸出 out/2027/01/0101/video/0101.mp4 與 0101.srt（YouTube 字幕）。
 聲音用 edge-tts：英文 Jenny、日文 Nanami；英文句子裡的「日文」自動換 Nanami 唸。
 """
 import os, re, sys, json, wave, asyncio, hashlib, subprocess
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import edge_tts
+from paths import out_dir
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FD = os.path.join(ROOT, 'fonts')
@@ -20,7 +21,7 @@ JA_VOICE = 'ja-JP-NanamiNeural'
 JA_WORD_RATE, JA_POEM_RATE = '-25%', '-15%'
 GAP_JA, GAP_EN, GAP_SENT, GAP_BLOCK, GAP_CARD, GAP_POEM = 0.45, 0.3, 0.45, 0.7, 0.5, 0.8
 TTS_FIX = {'8月冬眠中': 'はちがつとうみんちゅう', '間(ま)': 'ま', '一行': 'いちぎょう', '百通り': 'ひゃくとおり', '百番目': 'ひゃくばんめ',
-           '除く': 'のぞく', '来て': 'きて', 'その一': 'そのいち', 'その二': 'そのに', 'その三': 'そのさん'}   # 只改念法，字幕照原文
+           '除く': 'のぞく', '来て': 'きて', 'その一': 'そのいち', 'その二': 'そのに', 'その三': 'そのさん', 'Mua': 'ムア'}   # 只改念法，字幕照原文
 SUB_FIX = {'poem dot knitting hiyori dot com': 'poem.knittinghiyori.com'}
 
 def font(name, size): return ImageFont.truetype(os.path.join(FD, name), size)
@@ -60,7 +61,7 @@ CACHE = None
 READINGS = {'詩': 'し', '夢': 'ゆめ', '夜': 'よる', '中': 'なか', '外': 'そと', '目': 'め', '光': 'ひかり', '音': 'おと',
             '影': 'かげ', '君': 'きみ', '窓': 'まど', '本': 'ほん', '間': 'ま', '声': 'こえ', '口': 'くち',
             '顔': 'かお', '百': 'ひゃく', '通り': 'とおり', '番目': 'ばんめ',
-            '胸': 'むね', '耳': 'みみ', '前': 'まえ', '道': 'みち', '足': 'あし', '先': 'さき', '片': 'かた', '想い': 'おもい', '朝': 'あさ', '風': 'かぜ'}
+            '胸': 'むね', '耳': 'みみ', '前': 'まえ', '道': 'みち', '足': 'あし', '先': 'さき', '片': 'かた', '想い': 'おもい', '朝': 'あさ', '風': 'かぜ', '話': 'はなし', '猫': 'ねこ', '街': 'まち'}
 
 async def tts(text, voice, rate):
     for a, b in TTS_FIX.items(): text = text.replace(a, b)
@@ -224,6 +225,11 @@ def render(card, sub, header, bg, path):
         rows_n = sum(max(len(sj), len(se)) for sj, se in zip(ja, en)) + 0.8 * (len(ja) - 1)
         lh = min(50, int((PH - 130) / rows_n))  # 行數多時自動縮小，避免超出便條紙
         fj, fe = font(FONT, int(42 * lh / 50)), font(FONT, int(32 * lh / 50))
+        # 最長的一行太寬時再縮小，左右都要離紙邊至少 50px
+        jw = max(pd.textlength(a, font=fj) for sj in ja for a in sj); jroom = cx - 60 - (pad + 50)
+        if jw > jroom: fj = font(FONT, int(fj.size * jroom / jw))
+        ew = max(pd.textlength(b, font=fe) for se in en for b in se); eroom = pad + PW - 50 - (cx + 40)
+        if ew > eroom: fe = font(FONT, int(fe.size * eroom / ew))
         y = cy - rows_n * lh / 2 + lh / 2
         cur = [s for s in (sub or '').split('、')]
         words = lambda t: set(re.findall(r"[a-z']+", t.lower())) - {'the', 'a', 'i', 'it', 'is', 'in', 'my', 'you', 'we'}
@@ -289,7 +295,7 @@ async def main(pid, script_path):
     global CACHE
     data = json.load(open(os.path.join(ROOT, 'poems.json'), encoding='utf-8'))
     p = next(x for x in data['poems'] if x['id'] == pid)
-    out = os.path.join(ROOT, 'out', pid, 'video'); CACHE = os.path.join(out, 'cache')
+    out = out_dir(pid, 'video'); CACHE = os.path.join(out, 'cache')
     os.makedirs(CACHE, exist_ok=True); fr = os.path.join(out, 'frames'); os.makedirs(fr, exist_ok=True)
     items = parse(open(script_path, encoding='utf-8').read(), '。'.join([p['ja']['title']] + ['、'.join(s) for s in p['ja']['stanzas']]) + '。')
     header = f'Learn Japanese with a Poem  ✿  No.{pid}'
