@@ -11,7 +11,7 @@
 
 - [全部的詩](https://poem.knittinghiyori.com/): 依編號排列的詩目錄
 
-## 已發表的詩（16 首）
+## 已發表的詩（17 首）
 
 - [0101「図書館」](https://poem.knittinghiyori.com/0101/): 圖書館 / The Library
 - [0102「反射」](https://poem.knittinghiyori.com/0102/): 反光 / Reflection
@@ -29,6 +29,7 @@
 - [0114「おはようとおやすみ」](https://poem.knittinghiyori.com/0114/): 早安晚安 / Good Morning, Good Night
 - [0115「先に連れていくね」](https://poem.knittinghiyori.com/0115/): 先帶走 / Stolen Away
 - [0116「同じ名前」](https://poem.knittinghiyori.com/0116/): 同名 / Same Name
+- [0117「バックアップ」](https://poem.knittinghiyori.com/0117/): 備份 / Backup
 
 ## 相關網站
 
