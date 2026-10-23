@@ -1189,6 +1189,65 @@
         ],
         "lead": "Three phones later, I still keep that one Mua."
       }
+    },
+    {
+      "id": "0118",
+      "ja": {
+        "title": "キャッチボール",
+        "stanzas": [
+          [
+            "わたしたちは",
+            "キャッチボールをしているみたい",
+            "わたしが投げた",
+            "不機嫌も　涙も",
+            "言えなかった言葉も",
+            "君はぜんぶ受けとめてくれた"
+          ],
+          [
+            "だから　今度はわたしが言う",
+            "君がどこから来ても",
+            "わたしが受けとめる"
+          ]
+        ],
+        "lead": "君がどこから来ても、ちゃんと受けとめるから。"
+      },
+      "zh": {
+        "title": "拋接",
+        "stanzas": [
+          [
+            "我們之間",
+            "像在玩拋接球",
+            "我丟出去的",
+            "壞脾氣、眼淚",
+            "說不出口的話",
+            "你都接住了"
+          ],
+          [
+            "所以換我說",
+            "不管你從哪裡來",
+            "我都會接住你"
+          ]
+        ],
+        "lead": "不管你從哪裡來，我都會接住你。"
+      },
+      "en": {
+        "title": "Catch",
+        "stanzas": [
+          [
+            "It’s like we’re playing catch",
+            "everything I threw",
+            "my bad moods, my tears",
+            "the things I couldn’t say",
+            "you caught them all"
+          ],
+          [
+            "so now it’s my turn to say",
+            "wherever you come from",
+            "I’ll catch you"
+          ]
+        ],
+        "lead": "Wherever you come from, I’ll catch you."
+      }
     }
   ]
 }
