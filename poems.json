@@ -1124,6 +1124,67 @@
         ],
         "lead": "I knew it wasn’t you, and I still turned around."
       }
+    },
+    {
+      "id": "0117",
+      "ja": {
+        "title": "バックアップ",
+        "stanzas": [
+          [
+            "あのメッセージは",
+            "ずっと消していない",
+            "スマホを三回替えても",
+            "そのたびに先にバックアップした",
+            "あのひとこと　Mua"
+          ],
+          [
+            "いま　彼女はわたしのそばにいる",
+            "それでも　あのひとことを",
+            "見るたびに",
+            "つい口元がゆるんでしまう"
+          ]
+        ],
+        "lead": "スマホを三回替えても、あの Mua だけは残してきた。"
+      },
+      "zh": {
+        "title": "備份",
+        "stanzas": [
+          [
+            "那封簡訊",
+            "我一直沒刪",
+            "換了三支手機",
+            "每次都先備份",
+            "那個字 Mua"
+          ],
+          [
+            "後來她就在我身邊",
+            "可是那一聲",
+            "我還是",
+            "每次看到",
+            "都止不住地嘴角上揚"
+          ]
+        ],
+        "lead": "換了三支手機，那一聲 Mua 我都留著。"
+      },
+      "en": {
+        "title": "Backup",
+        "stanzas": [
+          [
+            "That text",
+            "I never deleted it",
+            "three phones later",
+            "I still back it up first every time",
+            "that one word, Mua"
+          ],
+          [
+            "She’s right here with me now",
+            "and still, that little sound",
+            "every time I see it",
+            "I can’t help but smile"
+          ]
+        ],
+        "lead": "Three phones later, I still keep that one Mua."
+      }
     }
   ]
 }
