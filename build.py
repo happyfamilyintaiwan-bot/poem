@@ -26,7 +26,11 @@ AD_CLIENT = 'ca-pub-2022028565680247'  # AdSense 發布商 ID
 # 首頁與詩頁共用同一個廣告單元（Zoe 2026-10-09：收益合在一起看；哪一頁人多看 GA4）
 AD_SLOT_HOME = '6629751780'  # poem-目錄下方
 AD_SLOT_POEM = AD_SLOT_HOME
-SPEC = 'core-v1.5/poem-v0.6'
+SPEC = 'core-v1.5/poem-v0.7'
+# 三語各有自己的網址（poem v0.7）：日文在根目錄（原本的網址），中文 /zh/、英文 /en/
+PREFIX = {'ja': '', 'zh': '/zh', 'en': '/en'}
+LANG_TAG = {'ja': 'ja', 'zh': 'zh-Hant', 'en': 'en'}
+OG_LOCALE = {'ja': 'ja_JP', 'zh': 'zh_TW', 'en': 'en_US'}
 PRIVACY = 'https://knittinghiyori.com/privacy-policy/'
 
 FONTS = ('https://fonts.googleapis.com/css2?family=Iansui&family=Klee+One:wght@400;600'
@@ -43,35 +47,35 @@ def T(p, k):
     return L(E(p['ja'].get(k, '')), E(p['zh'].get(k, '')), E(p.get('en', p['ja']).get(k, '')))
 
 
-def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e', noindex=False, ads=False, page_title=None):
-    canon = URL + path
+def head(title_ja, title_zh, title_en, desc, path, og_img, story_id, color='#c8707e', noindex=False, ads=False, page_title=None, lang='ja'):
+    """path 是不含語言前綴的路徑（例：/0101/）；lang 決定這一頁的網址、<html lang>、title 與 description"""
+    titles = {'ja': title_ja, 'zh': title_zh, 'en': title_en}
+    desc = desc[lang] if isinstance(desc, dict) else desc
+    canon = URL + PREFIX[lang] + path
     if noindex:  # 404：不給 Google 收錄，也不放 canonical／hreflang／OG
         seo = '<meta name="robots" content="noindex, follow">'
     else:
+        alts = ''.join(f'<link rel="alternate" hreflang="{LANG_TAG[k]}" href="{URL}{PREFIX[k]}{path}">\n' for k in PREFIX)
+        locs = ''.join(f'<meta property="og:locale:alternate" content="{OG_LOCALE[k]}">\n' for k in PREFIX if k != lang)
         seo = f'''<link rel="canonical" href="{canon}">
-<link rel="alternate" hreflang="ja" href="{canon}">
-<link rel="alternate" hreflang="zh-Hant" href="{canon}?lang=zh">
-<link rel="alternate" hreflang="en" href="{canon}?lang=en">
-<link rel="alternate" hreflang="x-default" href="{canon}">
+{alts}<link rel="alternate" hreflang="x-default" href="{URL}{path}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="8月冬眠中">
-<meta property="og:title" content="{E(title_ja)}">
+<meta property="og:title" content="{E(titles[lang])}">
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:url" content="{canon}">
 <meta property="og:image" content="{URL}{og_img}">
-<meta property="og:locale" content="ja_JP">
-<meta property="og:locale:alternate" content="zh_TW">
-<meta property="og:locale:alternate" content="en_US">
-<meta name="twitter:card" content="summary_large_image">'''
+<meta property="og:locale" content="{OG_LOCALE[lang]}">
+{locs}<meta name="twitter:card" content="summary_large_image">'''
     return f'''<!doctype html>
-<html lang="ja" data-lang="ja" data-mode="day">
+<html lang="{LANG_TAG[lang]}" data-lang="{lang}" data-mode="day">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- Travelpayouts Drive（head 第一個 script） -->
 <script data-cfasync="false">(function(){{var s=document.createElement("script");s.async=1;s.src="{DRIVE}";document.head.appendChild(s);}})();</script>
-<script>(function(){{var r=document.documentElement,l=new URLSearchParams(location.search).get('lang');try{{l=l||localStorage.getItem('hy-poem-lang')}}catch(e){{}}var M={{ja:'ja',zh:'zh-Hant',en:'en'}};if(!M[l])l='ja';r.setAttribute('data-lang',l);r.lang=M[l];window.HY_PAGE_LANG=M[l];var m='day';try{{m=localStorage.getItem('hy-poem-mode')==='night'?'night':'day'}}catch(e){{}}r.setAttribute('data-mode',m);}})();</script>
-<title>{E(title_ja)}</title>
+<script>(function(){{var r=document.documentElement,p=location.pathname,M={{ja:'ja',zh:'zh-Hant',en:'en'}},l=/^\\/zh(\\/|$)/.test(p)?'zh':/^\\/en(\\/|$)/.test(p)?'en':'ja',q=new URLSearchParams(location.search).get('lang');if(l==='ja'&&(q==='zh'||q==='en')){{location.replace('/'+q+p+location.hash);return}}r.setAttribute('data-lang',l);r.lang=M[l];window.HY_PAGE_LANG=M[l];var m='day';try{{m=localStorage.getItem('hy-poem-mode')==='night'?'night':'day'}}catch(e){{}}r.setAttribute('data-mode',m);}})();</script>
+<title>{E(titles[lang])}</title>
 <meta name="title-ja" content="{E(title_ja)}">
 <meta name="title-zh" content="{E(title_zh)}">
 <meta name="title-en" content="{E(title_en)}">
@@ -125,6 +129,7 @@ def legal():
 def write(path, out):
     """寫出頁面；所有連結加 data-google-vignette="false"（不開自動廣告，core §4）"""
     out = out.replace('<a ', '<a data-google-vignette="false" ')
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, 'w', encoding='utf-8').write(out)
 
 
@@ -133,16 +138,24 @@ BRAND = ('<a class="kh-brand" href="https://poem.knittinghiyori.com/" data-cta="
          '<img src="/icons/logo-knitting-120.webp" srcset="/icons/logo-knitting-120.webp 1x, /icons/logo-knitting-240.webp 2x" '
          'width="40" height="40" alt="">編織日和'
          f'<span class="kh-brand-sub">{L("・詩", "・詩", " · Poems")}</span></a>')
-BACK = f'<nav class="crumb"><a class="back" href="/">‹ {L("一覧", "目錄", "Index")}</a></nav>'
+def back(lang='ja'):
+    return f'<nav class="crumb"><a class="back" href="{PREFIX[lang]}/">‹ {L("一覧", "目錄", "Index")}</a></nav>'
 
-LANG_SWITCH = ('<div class="tools"><div class="lang" role="group" aria-label="Language">'
-               '<button type="button" data-set="ja" aria-pressed="true">日本語</button>'
-               '<button type="button" data-set="zh" aria-pressed="false">中文</button>'
-               '<button type="button" data-set="en" aria-pressed="false" lang="en">EN</button></div>'
-               '<button class="mode" id="mode" type="button" aria-pressed="false" aria-label="Night mode">'
-               '<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>'
-               '<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>'
-               '</button></div>')
+
+def lang_switch(path=None, lang='ja'):
+    """語言切換：按了立刻換字，網址也換成該語言的網址（data-href）。path=None（404）只換字"""
+    def btn(k, label, extra=''):
+        href = f' data-href="{PREFIX[k]}{path}"' if path else ''
+        return f'<button type="button" data-set="{k}"{href} aria-pressed="{str(k == lang).lower()}"{extra}>{label}</button>'
+    return ('<div class="tools"><div class="lang" role="group" aria-label="Language">'
+            + btn('ja', '日本語') + btn('zh', '中文') + btn('en', 'EN', ' lang="en"') + '</div>'
+            + MODE_BTN)
+
+
+MODE_BTN = ('<button class="mode" id="mode" type="button" aria-pressed="false" aria-label="Night mode">'
+            '<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>'
+            '<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>'
+            '</button></div>')
 
 
 def share_bar(url, ja, zh, en, poem):
@@ -199,7 +212,8 @@ def x_link():
             f'data-cta="x_profile" data-cta-type="social">{L("Xで読む", "在 X 上閱讀", "Read on X")}</a>')
 
 
-def build_home():
+def build_home(lang='ja'):
+    P = PREFIX[lang]
     have = {p['id']: p for p in POEMS}
     done_months = {int(p['id'][:2]) for p in POEMS}
     months = []
@@ -209,7 +223,7 @@ def build_home():
         for d in range(1, n + 1):
             pid = f'{m:02d}{d:02d}'
             if pid in have:
-                cells.append(f'<a class="day done" data-d="{pid}" href="/{pid}/" aria-label="{m}月{d}日 {E(have[pid]["ja"]["title"])}">{d}</a>')
+                cells.append(f'<a class="day done" data-d="{pid}" href="{P}/{pid}/" aria-label="{m}月{d}日 {E(have[pid]["ja"]["title"])}">{d}</a>')
             else:
                 cells.append(f'<span class="day" data-d="{pid}" aria-hidden="true">{d}</span>')
         months.append(f'<div class="month" style="--c:{c}"><h3>{m}月<small>{L(ja, zh, en)}</small></h3>'
@@ -220,16 +234,18 @@ def build_home():
     rows = []
     for p in POEMS:
         mm, dd = p['id'][:2], p['id'][2:]
-        rows.append(f'<tr style="--c:{MONTHS[int(mm) - 1][0]}"><td class="no"><a href="/{p["id"]}/">{mm}.{dd}</a></td>'
-                    f'<td><a href="/{p["id"]}/">{T(p, "title")}</a></td></tr>')
+        rows.append(f'<tr style="--c:{MONTHS[int(mm) - 1][0]}"><td class="no"><a href="{P}/{p["id"]}/">{mm}.{dd}</a></td>'
+                    f'<td><a href="{P}/{p["id"]}/">{T(p, "title")}</a></td></tr>')
     rows += ['<tr><td></td><td></td></tr>'] * 3
 
-    desc = '8月冬眠中の、一年ぶんの詩。一日ひとつ、365篇の短い詩を日本語・中国語・英語で。'
+    desc = {'ja': '8月冬眠中の、一年ぶんの詩。一日ひとつ、365篇の短い詩を日本語・中国語・英語で。',
+            'zh': '8月冬眠中的一年份的詩。一天一首，365 首短詩，以日文、中文與英文書寫。',
+            'en': 'A year of poems by 8月冬眠中: one short poem a day, 365 in all, in Japanese, Chinese and English.'}
     out = head('8月冬眠中｜365日の詩', '8月冬眠中｜365 天的詩', '8月冬眠中 | 365 Days of Poems',
-               desc, '/', '/og.png', 'poem-hub', ads=True)
+               desc, '/', '/og.png', 'poem-hub', ads=True, lang=lang)
     out += f'''<body>
 <div class="wrap">
-<div class="bar kh-brand-row">{BRAND}{LANG_SWITCH}</div>
+<div class="bar kh-brand-row">{BRAND}{lang_switch('/', lang)}</div>
 <main>
 <header class="mast fade">
 <p class="en">AUGUST HIBERNATION</p>
@@ -256,7 +272,7 @@ def build_home():
 {x_link()}
 </footer>
 </main>
-{share_bar(URL + "/", "8月冬眠中｜365日の詩\n\n#8月冬眠中 #365日の詩", "8月冬眠中｜365 天的詩\n\n#8月冬眠中 #365天的詩",
+{share_bar(URL + P + "/", "8月冬眠中｜365日の詩\n\n#8月冬眠中 #365日の詩", "8月冬眠中｜365 天的詩\n\n#8月冬眠中 #365天的詩",
            "8月冬眠中 | 365 Days of Poems\n\n#8月冬眠中 #365poems", False)}
 {newsletter(False)}
 {legal()}
@@ -265,28 +281,29 @@ def build_home():
 </body>
 </html>
 '''
-    write(os.path.join(ROOT, 'index.html'), out)
+    write(os.path.join(ROOT, P.strip('/'), 'index.html'), out)
 
 
 def stanzas(st):
     return ''.join('<p class="st">' + '<br>'.join(E(x) for x in s) + '</p>' for s in st)
 
 
-def build_poem(i, p):
+def build_poem(i, p, lang='ja'):
+    P = PREFIX[lang]
     pid = p['id']; mm, dd = pid[:2], pid[2:]
     ja, zh = p['ja'], p['zh']; en = p.get('en', ja)
     c, mja, mzh, men = MONTHS[int(mm) - 1]
     prev = POEMS[i - 1] if i > 0 else None
     nxt = POEMS[i + 1] if i + 1 < len(POEMS) else None
-    pl = (f'<a href="/{prev["id"]}/" rel="prev">‹ {T(prev, "title")}</a>' if prev else '<span class="off" aria-hidden="true">‹</span>')
-    nl = (f'<a href="/{nxt["id"]}/" rel="next">{T(nxt, "title")} ›</a>' if nxt else '<span class="off" aria-hidden="true">›</span>')
-    desc = ja.get('lead') or ''.join(ja['stanzas'][0])
+    pl = (f'<a href="{P}/{prev["id"]}/" rel="prev">‹ {T(prev, "title")}</a>' if prev else '<span class="off" aria-hidden="true">‹</span>')
+    nl = (f'<a href="{P}/{nxt["id"]}/" rel="next">{T(nxt, "title")} ›</a>' if nxt else '<span class="off" aria-hidden="true">›</span>')
+    desc = {k: v.get('lead') or ''.join(v['stanzas'][0]) for k, v in (('ja', ja), ('zh', zh), ('en', en))}
     out = head(f'「{ja["title"]}」｜8月冬眠中 {pid}', f'〈{zh["title"]}〉｜8月冬眠中 {pid}', f'“{en["title"]}” | 8月冬眠中 {pid}',
-               desc, f'/{pid}/', f'/{pid}/og.png', f'poem-{pid}', c, ads=True)
+               desc, f'/{pid}/', f'/{pid}/og.png', f'poem-{pid}', c, ads=True, lang=lang)
     out += f'''<body>
 <div class="wrap">
-<div class="bar kh-brand-row">{BRAND}{LANG_SWITCH}</div>
-{BACK}
+<div class="bar kh-brand-row">{BRAND}{lang_switch(f'/{pid}/', lang)}</div>
+{back(lang)}
 <main style="--c:{c}">
 <article class="sheet fade">
 <p class="en" aria-hidden="true">AUGUST HIBERNATION</p>
@@ -299,7 +316,7 @@ def build_poem(i, p):
 <p class="lead">{T(p, "lead")}</p>
 {video(p)}<nav class="pager">{pl}{nl}</nav>
 </main>
-{share_bar(f"{URL}/{pid}/", f"365日の詩　{pid}\n「{ja['title']}」\n\n#8月冬眠中 #365日の詩",
+{share_bar(f"{URL}{P}/{pid}/", f"365日の詩　{pid}\n「{ja['title']}」\n\n#8月冬眠中 #365日の詩",
            f"365 天的詩　{pid}\n〈{zh['title']}〉\n\n#8月冬眠中 #365天的詩",
            f"365 Days of Poems　{pid}\n“{en['title']}”\n\n#8月冬眠中 #365poems", True)}
 {newsletter(True)}
@@ -310,8 +327,7 @@ def build_poem(i, p):
 </body>
 </html>
 '''
-    os.makedirs(os.path.join(ROOT, pid), exist_ok=True)
-    write(os.path.join(ROOT, pid, 'index.html'), out)
+    write(os.path.join(ROOT, P.strip('/'), pid, 'index.html'), out)
 
 
 # 404 跨站連結一行（core §7 v1.5）：到編織日和其他子網域，不含自己；cta_type 填目的地類型
@@ -344,8 +360,8 @@ def build_404():
                page_title='詩|404|找不到頁面')
     out += f'''<body>
 <div class="wrap">
-<div class="bar kh-brand-row">{BRAND}{LANG_SWITCH}</div>
-{BACK}
+<div class="bar kh-brand-row">{BRAND}{lang_switch()}</div>
+{back()}
 <main style="--c:{c}">
 <article class="sheet fade">
 <p class="en" aria-hidden="true">AUGUST HIBERNATION</p>
@@ -400,11 +416,9 @@ def build_og():
 
 def build_sitemap():
     urls = ['/'] + [f'/{p["id"]}/' for p in POEMS]
-    items = ''.join(
-        f'<url><loc>{URL}{u}</loc>'
-        f'<xhtml:link rel="alternate" hreflang="ja" href="{URL}{u}"/>'
-        f'<xhtml:link rel="alternate" hreflang="zh-Hant" href="{URL}{u}?lang=zh"/>'
-        f'<xhtml:link rel="alternate" hreflang="en" href="{URL}{u}?lang=en"/></url>' for u in urls)
+    alts = lambda u: ''.join(f'<xhtml:link rel="alternate" hreflang="{LANG_TAG[k]}" href="{URL}{PREFIX[k]}{u}"/>' for k in PREFIX) \
+        + f'<xhtml:link rel="alternate" hreflang="x-default" href="{URL}{u}"/>'
+    items = ''.join(f'<url><loc>{URL}{PREFIX[k]}{u}</loc>{alts(u)}</url>' for u in urls for k in PREFIX)
     open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8').write(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
         f'xmlns:xhtml="http://www.w3.org/1999/xhtml">{items}</urlset>\n')
@@ -418,6 +432,7 @@ def build_llms():
              '- 語言：日文為主，每首附繁體中文與英文',
              '- 筆名：8月冬眠中',
              f'- 詩的網址是四位數的日期編號，例如 0101 代表 1 月 1 日：{URL}/0101/',
+             f'- 三語各有網址：日文 {URL}/0101/、繁體中文 {URL}/zh/0101/、英文 {URL}/en/0101/',
              '- 詩是原創作品，引用時請標示「8月冬眠中」並附上該首詩的網址，不要整首轉載', '',
              '## 入口', '', f'- [全部的詩]({URL}/): 依編號排列的詩目錄', '',
              f'## 已發表的詩（{len(POEMS)} 首）', '']
@@ -427,9 +442,10 @@ def build_llms():
     open(os.path.join(ROOT, 'llms.txt'), 'w', encoding='utf-8').write('\n'.join(lines))
 
 if __name__ == '__main__':
-    build_home()
-    for i, p in enumerate(POEMS):
-        build_poem(i, p)
+    for lang in PREFIX:
+        build_home(lang)
+        for i, p in enumerate(POEMS):
+            build_poem(i, p, lang)
     build_404()
     build_og()
     build_sitemap()

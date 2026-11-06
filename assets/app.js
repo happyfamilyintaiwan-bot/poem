@@ -11,7 +11,12 @@
     document.querySelectorAll('.lang button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.set === l); });
     var t = document.querySelector('meta[name="title-' + l + '"]'); if (t) document.title = t.content;
     if (window.gtag) gtag('set', { page_lang: LANGS[l] });
-    if (user) { store('hy-poem-lang', l); ev('interaction', { interaction_type: 'toggle', interaction_id: 'lang_' + l }); }
+    if (user) {
+      store('hy-poem-lang', l); ev('interaction', { interaction_type: 'toggle', interaction_id: 'lang_' + l });
+      /* 每個語言有自己的網址（/zh/、/en/）：換字的同時把網址換過去，分享與重新整理都會停在這個語言 */
+      var b = document.querySelector('.lang button[data-set="' + l + '"]');
+      if (b && b.dataset.href && history.replaceState) history.replaceState(null, '', b.dataset.href + location.hash);
+    }
   }
   setLang(root.dataset.lang);
   document.querySelectorAll('.lang button').forEach(function (b) { b.onclick = function () { setLang(b.dataset.set, true); }; });
@@ -55,7 +60,8 @@
   var bar = $('#sharebar');
   function info() {
     var l = root.dataset.lang;
-    return { url: bar.dataset.url + (l === 'ja' ? '' : '?lang=' + l), text: bar.dataset['text' + l.charAt(0).toUpperCase() + l.slice(1)] };
+    var b = document.querySelector('.lang button[data-set="' + l + '"]');
+    return { url: b && b.dataset.href ? location.origin + b.dataset.href : bar.dataset.url, text: bar.dataset['text' + l.charAt(0).toUpperCase() + l.slice(1)] };
   }
   if (bar) {
     document.querySelectorAll('[data-net]').forEach(function (a) {
