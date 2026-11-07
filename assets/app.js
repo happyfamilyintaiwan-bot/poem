@@ -16,6 +16,11 @@
       /* 每個語言有自己的網址（/zh/、/en/）：換字的同時把網址換過去，分享與重新整理都會停在這個語言 */
       var b = document.querySelector('.lang button[data-set="' + l + '"]');
       if (b && b.dataset.href && history.replaceState) history.replaceState(null, '', b.dataset.href + location.hash);
+      /* 站內連結（目錄、上下首、‹ 目錄）也換到這個語言的網址 */
+      var pre = l === 'ja' ? '' : '/' + l;
+      document.querySelectorAll('a[href^="/"]').forEach(function (a) {
+        a.setAttribute('href', pre + a.getAttribute('href').replace(/^\/(zh|en)(?=\/|$)/, '') || '/');
+      });
     }
   }
   setLang(root.dataset.lang);
