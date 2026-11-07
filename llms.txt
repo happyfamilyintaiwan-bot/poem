@@ -5,6 +5,7 @@
 - 語言：日文為主，每首附繁體中文與英文
 - 筆名：8月冬眠中
 - 詩的網址是四位數的日期編號，例如 0101 代表 1 月 1 日：https://poem.knittinghiyori.com/0101/
+- 三語各有網址：日文 https://poem.knittinghiyori.com/0101/、繁體中文 https://poem.knittinghiyori.com/zh/0101/、英文 https://poem.knittinghiyori.com/en/0101/
 - 詩是原創作品，引用時請標示「8月冬眠中」並附上該首詩的網址，不要整首轉載
 
 ## 入口

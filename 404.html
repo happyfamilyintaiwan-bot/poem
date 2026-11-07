@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- Travelpayouts Drive（head 第一個 script） -->
 <script data-cfasync="false">(function(){var s=document.createElement("script");s.async=1;s.src="https://emrld.ltd/NTc4NjIw.js?t=578620";document.head.appendChild(s);})();</script>
-<script>(function(){var r=document.documentElement,l=new URLSearchParams(location.search).get('lang');try{l=l||localStorage.getItem('hy-poem-lang')}catch(e){}var M={ja:'ja',zh:'zh-Hant',en:'en'};if(!M[l])l='ja';r.setAttribute('data-lang',l);r.lang=M[l];window.HY_PAGE_LANG=M[l];var m='day';try{m=localStorage.getItem('hy-poem-mode')==='night'?'night':'day'}catch(e){}r.setAttribute('data-mode',m);})();</script>
+<script>(function(){var r=document.documentElement,p=location.pathname,M={ja:'ja',zh:'zh-Hant',en:'en'},l=/^\/zh(\/|$)/.test(p)?'zh':/^\/en(\/|$)/.test(p)?'en':'ja',q=new URLSearchParams(location.search).get('lang');if(l==='ja'&&(q==='zh'||q==='en')){location.replace('/'+q+p+location.hash);return}r.setAttribute('data-lang',l);r.lang=M[l];window.HY_PAGE_LANG=M[l];var m='day';try{m=localStorage.getItem('hy-poem-mode')==='night'?'night':'day'}catch(e){}r.setAttribute('data-mode',m);})();</script>
 <title>ページが見つかりません｜8月冬眠中</title>
 <meta name="title-ja" content="ページが見つかりません｜8月冬眠中">
 <meta name="title-zh" content="找不到這一頁｜8月冬眠中">
@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Iansui&family=Klee+One:wght@400;600&family=Shippori+Mincho:wght@500&display=swap">
-<link rel="stylesheet" href="/assets/style.css?v=fcf9ac84">
+<link rel="stylesheet" href="/assets/style.css?v=8047ed68">
 <!-- GA4 統一追蹤 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZQZHTYTRMQ"></script>
 <script>
@@ -31,7 +31,7 @@ gtag('js',new Date());
 gtag('set',{story_id:'poem-404',page_lang:window.HY_PAGE_LANG,content_group:'poem',page_title:'詩|404|找不到頁面'});
 gtag('config','G-ZQZHTYTRMQ',{cookie_domain:'.knittinghiyori.com'});
 </script>
-<meta name="spec-version" content="core-v1.5/poem-v0.6">
+<meta name="spec-version" content="core-v1.5/poem-v0.7">
 </head>
 <body>
 <div class="wrap">
@@ -54,6 +54,6 @@ gtag('config','G-ZQZHTYTRMQ',{cookie_domain:'.knittinghiyori.com'});
 </main>
 <p class="kh-legal"><span data-l="ja" lang="ja">当サイトはアクセス解析（Google Analytics）と広告配信（Google AdSense）のためにCookieを使用し、一部にアフィリエイトリンクを含みます。</span><span data-l="zh" lang="zh-Hant">本站使用 Cookie 進行流量分析（Google Analytics）與顯示廣告（Google AdSense），部分連結為聯盟連結。</span><span data-l="en" lang="en">This site uses cookies for analytics (Google Analytics) and ads (Google AdSense), and some links are affiliate links. </span><a data-google-vignette="false" href="https://knittinghiyori.com/privacy-policy/"><span data-l="ja" lang="ja">プライバシーポリシー</span><span data-l="zh" lang="zh-Hant">隱私權政策</span><span data-l="en" lang="en">Privacy</span></a></p>
 </div>
-<script src="/assets/app.js?v=fcf9ac84"></script>
+<script src="/assets/app.js?v=8047ed68"></script>
 </body>
 </html>
