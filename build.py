@@ -26,7 +26,7 @@ AD_CLIENT = 'ca-pub-2022028565680247'  # AdSense 發布商 ID
 # 首頁與詩頁共用同一個廣告單元（Zoe 2026-10-09：收益合在一起看；哪一頁人多看 GA4）
 AD_SLOT_HOME = '6629751780'  # poem-目錄下方
 AD_SLOT_POEM = AD_SLOT_HOME
-SPEC = 'core-v1.5/poem-v0.7'
+SPEC = 'core-v1.9/poem-v0.7'
 # 三語各有自己的網址（poem v0.7）：日文在根目錄（原本的網址），中文 /zh/、英文 /en/
 PREFIX = {'ja': '', 'zh': '/zh', 'en': '/en'}
 LANG_TAG = {'ja': 'ja', 'zh': 'zh-Hant', 'en': 'en'}
